@@ -1,0 +1,29 @@
+# Operating-system files
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+# Editor swap and temporary files
+*.swp
+*.swo
+*~
+*.tmp
+*.temp
+# Autodesk Fusion / SolidWorks / CAD temporary locks and backups
+~$*
+*.sldprt.lck
+*.sldasm.lck
+# MATLAB autosave / editor backup
+*.asv
+# KiCad session locks, caches and auto-save material
+*.lck
+*-backups/
+fp-info-cache
+_autosave-*
+# Python / future visualization or automation builds
+__pycache__/
+*.pyc
+node_modules/
+dist/
+# Do NOT ignore controlled STL, 3MF, STEP, F3D, SLDPRT, SLDASM or KiCad project sources.
+# .gitignore does not remove files that are already tracked.
