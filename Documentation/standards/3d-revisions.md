@@ -1,58 +1,45 @@
-# 3D Design Revisions and Manufacturing Records
+# 3D Design Revision and Manufacturing Traceability
 
-## Purpose
+A revision history explains **what changed, why, who made the decision and what exact design/print was tested**. It should be available for every controlled 3D asset without forcing revision suffixes into the permanent filename.
 
-Preserve an exact, reproducible link between an editable design, its released manufacturing files and the physical parts produced from it.
+## Three different histories
 
-## Three histories to track
-
-| History | Records | Stored where |
+| History | What it answers | Primary record |
 | --- | --- | --- |
-| Design development | Sketches, features, linked components and editable source-system saves | Native CAD project/tool |
-| Controlled revision | What changed, why, author, affected interfaces, tests, approval and source snapshot | Component or assembly record and asset tracker |
-| Manufacturing/test | Material, machine, slicer, orientation, settings, print outcome and fit testing | Print project or test record |
+| **CAD development** | How geometry and assembly relationships were edited; recoverable source states | Original SolidWorks/Fusion project and saved versions |
+| **Controlled item revision** | What officially changed between documented versions; interface compatibility and approval | Component/assembly README and revision register |
+| **Manufacturing / testing** | How a particular physical part was fabricated; which result worked | Print project, test record and installed build register |
 
-A new print attempt does not necessarily require a design revision.
+**Do not confuse Git's file commit history with Fusion's cloud saved-version history.** A downloaded `.f3d` may contain the feature timeline when history was enabled, but it does not give a new user the complete version list from the original Fusion cloud project.
 
-## CAD source history
+## Identifiable release evidence
 
-- **Autodesk Fusion:** An exported `.f3d` may retain the feature timeline when design history is enabled. It does **not** contain the complete saved cloud-version history of the original project.
-- **SolidWorks:** `.sldprt` is a part file and `.sldasm` defines an assembly. External references between files may depend on names and saved paths.
-- **STEP:** Useful for interoperable engineering geometry, but does not always preserve the source application's complete feature history.
-- **STL:** Exported triangular mesh geometry, not an editable parametric design history.
-- **3MF:** May be a prepared manufacturing job, including multiple parts and slicer settings.
+Record, at minimum: controlled ID, revision, effective date, author, source-system project and revision, format-specific exports, linked assembly revision, Git commit SHA, manufacturing file integrity where necessary, verification results, reviewer/approver and any known incompatibilities.
 
-For every approved release, document the authoritative editable design, its exact CAD revision or source reference and the GitHub commit/tag identifying its associated release files.
+Exact release identifiers (tags, commit SHAs or saved references) matter because a GitHub URL pointing to `main` always shows the latest file, not necessarily the one used in a prior validated build.
 
-## Revision summary fields
+## When to revise?
 
-| Field | What to record |
-| --- | --- |
-| Revision | Stable revision label (e.g. R01) |
-| Date | Revision date |
-| Change | Geometry, fit or interface change |
-| Reason | Problem resolved or requirement addressed |
-| Source revision | CAD project version, save or released archive |
-| Git reference | Commit SHA or immutable release reference |
-| Testing | Dimensional/fit/mechanical results |
-| Author / reviewer | Responsible individuals |
+Geometry, mounting-point locations, clearances, physical interfaces and material requirements affecting the controlled design generally require a new design revision. Cosmetic file exports, reprints, color changes and ordinary slicer trials generally do not, although a **validated manufacturing process** can have its own controlled revision.
 
-Revisions are recorded in documentation rather than appended to the permanent design filename.
+Where a change is experimental, label it development/prototype. Do not mark it released until suitability has been checked and recorded.
 
-## Separate manufacturing changes
+## Revision summary template
 
-Examples that generally change a **design revision**: mounting hole relocation, new dimensions, geometry affecting fit or an updated mating interface.
+| Revision | Date | Specific changes | Reason | Source CAD save/version | Git reference | Compatibility / test outcome | Reviewer |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| | | | | | | | |
 
-Examples that generally belong in a **print record**: reprint, failed attempt, filament color, printer selection or slicer adjustments that do not change the controlled part geometry.
+## Special considerations
 
-When a manufacturing process itself is validated and controlled, it may need its own revision history even if the part geometry is unchanged.
+- **SolidWorks:** Assembly links and external part references may be stored using names/paths. Rename or relocate linked files with appropriate CAD-native tools and then reopen/verify assemblies.
+- **Fusion:** Design timeline and cloud versions are distinct. Linked designs and multi-file exports require explicit source mapping.
+- **STEP:** Exchange geometry may lose original feature-tree/edit history. Retain the original CAD master.
+- **STL:** A mesh is normally not an editable parametric source. GitHub mesh visual diffs can help reveal geometry changes but cannot document why.
+- **3MF:** A slicer project may contain several designs and print instructions. A change to plate composition does not automatically change a component's geometry revision.
 
-## Before releasing a file
+## Print and equipment outcomes
 
-1. Verify the correct CAD master and source revision.
-2. Check linked files, names/paths and referenced component IDs.
-3. Record the design change and its reason.
-4. Generate the manufacturing exports and confirm intended units and geometry.
-5. Record a reproducible Git reference for the exact exported files.
-6. Complete fit, print or functional checks appropriate to the item.
-7. Update the current-release status in the asset tracker.
+A physical print record should identify printer, method (filament/resin/etc.), slicer version, material, settings, part revision, print/run date and measured fit or failure. Record **installed, in stock and fabricated** status separately. Source-file existence never proves the part is manufactured.
+
+References: [intake-to-release procedure](../procedures/3d-intake-and-release.md), [print tracker](../../tracking/print-projects.csv), [build configurations](../../tracking/build-configurations.csv).

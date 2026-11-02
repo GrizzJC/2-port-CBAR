@@ -1,20 +1,28 @@
-# Documentation
+# Engineering and 3D Asset Documentation
 
-This folder contains information for maintaining reproducible, traceable rig designs.
+Documentation is organized by purpose. Its primary objective is to make the rig **understandable, maintainable and reproducible** when a new researcher takes over.
 
 ## Standards
 
-- [3D asset identifiers and filenames](standards/3d-identifiers.md)
-- [3D revisions and manufacturing records](standards/3d-revisions.md)
+- [3D identifiers and naming](standards/3d-identifiers.md) — permanent IDs, category allocation, role of descriptive names, type and assembly distinctions
+- [Design revisions and manufacturing histories](standards/3d-revisions.md) — CAD cloud history vs Git commits, validated releases, source references and print/test records
 
-## Technical guidance
+## Operational guides
 
-- [3D file formats, storage and GitHub previews](guides/file-formats-and-storage.md)
+- [3D formats, GitHub STL previews and storage](guides/file-formats-and-storage.md)
+- [Renaming and reference integrity](guides/renames-and-references.md)
+- [Repository management and handoff](guides/repository-management.md)
 
-## Reusable records
+## Procedures
+
+- [3D asset intake, verification and release](procedures/3d-intake-and-release.md)
+
+## Templates
 
 - [Component record](templates/component-record.md)
 - [Assembly record](templates/assembly-record.md)
-- [Print project record](templates/print-project-record.md)
+- [Print/manufacturing project record](templates/print-project-record.md)
+- [Reference geometry record](templates/reference-geometry-record.md)
+- [Build configuration record](templates/build-configuration-record.md)
 
-Component-specific revisions, connections and testing information belong alongside the relevant component or assembly. The [central tracker](../tracking/README.md) provides a searchable index.
+All asset-specific revision summaries, physical connections and test results belong with the corresponding controlled asset and are indexed from [tracking](../tracking/README.md). Historical drafts and records should remain traceable without confusing them with approved sources.

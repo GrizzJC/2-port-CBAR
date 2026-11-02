@@ -1,45 +1,44 @@
-# 2-Port Chemosensory Brief-Access Rig
+# 2-Port Chemosensory Brief-Access Rig (CBAR)
 
-Repository for the Samuelsen Lab's **2-port chemosensory brief-access task rig**. It brings together the designs, fabrication files, electronics, software and operating information needed to build, maintain and develop the experimental system.
+Engineering and laboratory documentation for the **Samuelsen Lab's two-port chemosensory brief-access task**. The repository can hold the mechanical designs, fabrication projects, electronics, control software, experimental protocols, manuals and maintenance information required to build and maintain the system.
 
-The task defines the project's identity; the hardware configuration may change over time.
+The *two-port task* defines the repository's scope. The current number of bottles, motors, valves or printable parts does **not** define a component's permanent identity.
 
-## Contents
+## Find what you need
 
-| Area | Contents |
+| Location | Use |
 | --- | --- |
-| [3D Models](3D-Models/README.md) | Components, multi-part assemblies and prepared 3D-print projects |
-| [Documentation](Documentation/README.md) | File identification, revision practices, manufacturing references and reusable records |
-| [Asset tracking](tracking/README.md) | 3D-file inventory and dependency checks before renaming or relocating files |
+| **[File organization and naming register](FILE-ORGANIZATION.md)** | Complete indexed list of files presently in this repository, file-placement rules, identifiers and status definitions |
+| [3D model library](3D-Models/README.md) | Where part sources, exports, assemblies, print projects and vendor references belong |
+| [Functional 3D system map](3D-Models/Systems/README.md) | Eleven physical system categories, independent of file type and printing process |
+| [Assembly grouping](3D-Models/Assemblies/Groups/README.md) | How components connect and which assemblies they belong to |
+| [Documentation](Documentation/README.md) | Naming, CAD source history, 3D release control, printing and storage guidelines |
+| [Tracking](tracking/README.md) | CSV registers for component/file intake, dependencies, build configurations and manufacturing records |
+| [Work batches](tracking/work-batches.md) | How to inventory, evaluate, place and verify assets without losing dependencies |
 
-Other content such as experiment-control software, electronics, calibration, procedures and equipment manuals can be organized here as those materials are added.
+## How a design is registered
 
-## 3D file organization
+1. Confirm the file represents a real **two-port** component, multi-part assembly, print preparation or external reference.
+2. Identify its original editable source and every derived file.
+3. Classify it by **stable physical function**, then assign an identifier only after the identity is verified.
+4. Preserve engineering dependencies and native source filenames when renaming them would break references.
+5. Store or link the authoritative design, record the revision and make an exact release snapshot.
+6. Record the manufacturing method, print/test outcome and compatibility with the relevant rig build.
 
-The 3D library distinguishes three types of assets:
+The working ID format is **`SS-NNN`** (two-digit functional-system code, three-digit number within that system). The convention is defined in [3D identification](Documentation/standards/3d-identifiers.md). No actual numeric system codes or part IDs have yet been allocated.
 
-- **Component:** An individual part design. Editable CAD sources and exported formats may describe the same component.
-- **Assembly:** A set of components and their mechanical relationships.
-- **Print project:** A prepared manufacturing job, potentially containing multiple components and printer settings.
+## Current rig concept versus future hardware
 
-Use the [3D asset tracker](tracking/2-port-3d-assets.csv) to associate each file with its stable identifier, source, related parts, revision, status and any filename/path dependencies. An identifier is assigned only after the item's identity has been established.
+The task uses two access ports with independently controlled shutters and a stimulus-selection mechanism. The current setup uses two two-bottle assemblies and two trial-selection positions with a HOME position. These are **configuration properties** tracked in the [build register](tracking/build-configurations.csv), not identifiers or filename prefixes.
 
-## File identification and revisions
+## Technical source control
 
-A compact **`SS-NNN`** scheme is used as the working identifier format: two-digit system/group code followed by a three-digit sequence. Group codes remain unassigned until the actual 2-port parts are classified. See [file identification](Documentation/standards/3d-identifiers.md).
+GitHub records committed files. The editable CAD project may reside in Autodesk Fusion, SolidWorks or another CAD system; save the authoritative source reference and an exact release copy where needed. The [dependency guide](Documentation/guides/renames-and-references.md) explains why a GitHub rename does not repair internal links in a CAD assembly or program.
 
-Revisions and validation belong in component records and the asset tracker, **not in permanent identifiers**. For CAD models, retain references to the native editable design and its source-system history. For printed parts, retain printer and testing information separately. See [revision management](Documentation/standards/3d-revisions.md).
+## Current inventory state
 
-**Do not rename native CAD files or program files based solely on the identifier.** Some filenames and paths are used by assemblies or programs. Record and verify dependencies before changes.
+The repository contains technical documentation and **tracking templates**, but no verified new two-port STL, 3MF, STEP, Fusion or SolidWorks model files have been committed. A system directory is a **location for future assets**, not proof a part exists, is installed or has been approved.
 
-## Repository usage
+## License and ownership
 
-This repository is maintained on `main`. Documentation and folder structure can evolve as the rig develops. Model or program files should only be labeled validated after their relevant checks have been recorded.
-
-## File formats and storage
-
-See [engineering file formats and GitHub storage](Documentation/guides/file-formats-and-storage.md) for the STL viewer's 10 MB threshold, editing versus exported formats, and storage recommendations.
-
-## Licensing
-
-No repository-wide license has been selected. The permissions and attribution applicable to any contributed or reused source files should be checked before redistribution.
+No repository-wide license is specified. Imported/reused designs and code require attribution, permission and existing-license review before redistribution.

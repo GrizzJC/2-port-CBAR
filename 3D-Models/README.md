@@ -1,38 +1,50 @@
-# 3D Models
+# 3D Models — placement and file handling
 
-This folder organizes the rig's controlled 3D design and manufacturing assets by **what a file represents**, not by which program created it.
+The repository separates **asset identity** from *file format*, *manufacturing method* and *its use in a particular assembly*. This keeps permanent paths stable as experiments and hardware evolve.
 
-| Folder | Contents |
-| --- | --- |
-| [Components](Components/README.md) | Individual physical parts and their source/derived files |
-| [Assemblies](Assemblies/README.md) | Multi-part models and the relationships among components |
-| [Print Projects](Print-Projects/README.md) | Prepared 3D-print jobs, including multi-part 3MF projects |
+## Where every type belongs
 
-## Recommended component layout
+| Directory | Records / files | Does NOT belong |
+| --- | --- | --- |
+| [Components](Components/README.md) | Individual physical designs: native editable sources and controlled STL/STEP exports | Multi-part print jobs and duplicate source files |
+| [Assemblies](Assemblies/README.md) | Native linked CAD assemblies, component relationships and verified assembly exports | A second uncontrolled copy of each component |
+| [Print-Projects](Print-Projects/README.md) | Manufacturing-oriented 3MF, slicer projects, build-plate settings, print/test records | Primary CAD design source |
+| [Reference-Geometry](Reference-Geometry/README.md) | Supplier models, purchased equipment envelopes and imported geometric references | Newly designed lab-manufactured components |
+| [Build-Configurations](Build-Configurations/README.md) | Rig-level manifests: exact installed designs, revisions and placements | Replicated CAD and STL sets |
+| [Systems](Systems/README.md) | Human-friendly placement across eleven rig functions | Duplicate CAD file copies |
 
-Once a component's permanent identifier is assigned, keep its records and exports together:
+## Controlled-folder pattern
 
 ```text
-Components/
-  SS-NNN/
-    README.md
-    source/
-    exports/
+Components/SS-NNN/
+  README.md
+  source/      # CAD source or a manifest pointing to an authoritative CAD cloud version
+  exports/     # controlled derived formats (STL, STEP, etc.)
+
+Assemblies/SS-NNN/
+  README.md
+  source/      # linked native assembly + dependencies where appropriate
+  exports/     # released assembly geometry
+
+Print-Projects/SS-NNN/
+  README.md
+  project/     # 3MF or other controlled slicer project
 ```
 
-The `SS-NNN` notation is a placeholder. Do not create numbered component folders or assume that two files represent the same component without verifying their relationship.
+These are **patterns**, not directories created with fictional identifiers. Use the permanent ID only after a real controlled asset is identified.
 
-The editable CAD file is the preferred source of design intent. STL represents exported mesh geometry, STEP generally serves interchange between CAD applications, and 3MF can contain a configured print job. These should not be treated as interchangeable simply because they are all 3D-related.
+## Format decisions
 
-## Registering a part
+- **SolidWorks part (.sldprt), Fusion design (.f3d), editable STEP:** component source or approved snapshot, preserving the authoritative source.
+- **SolidWorks assembly (.sldasm), multi-file Fusion assembly (.f3z):** assembly source; list linked parts and check paths.
+- **STL:** generally component-derived mesh export, not a parametric editable source.
+- **3MF:** inspect contents first. A single design export might be a component representation; a print plate with several objects/settings is a print project.
+- **OBJ / GLB / GLTF:** optional visualization or export geometry, with the same master-asset link. An optimized viewer mesh is not a manufacturing master.
+- **DXF / DWG / technical drawing:** attach to the related design as a drawing/export, not a new physical component without a distinct deliverable identity.
+- **STEP from a supplier:** reference geometry unless it has become a separate controlled lab-authored design.
 
-1. Determine whether it is a component, assembly or manufacturing project.
-2. Identify the source design and any related exports.
-3. Record mating parts and dependencies on existing filenames or paths.
-4. Assign a permanent identifier from the approved subsystem table.
-5. Record the current design revision and the tests supporting its release.
-6. Document print parameters separately from CAD design revisions.
+A part printed in resin and in filament keeps the same design identity if its geometry/interface is the same; printing method and settings are tracked per print job.
 
-Start from the [component record template](../Documentation/templates/component-record.md) or [assembly record template](../Documentation/templates/assembly-record.md). Keep the [asset tracker](../tracking/2-port-3d-assets.csv) up to date.
+## Workflow
 
-Printing with filament, resin or another process does not automatically change a part's identity. Manufacturing settings should be documented in the print record.
+Use [file intake and verification](../Documentation/procedures/3d-intake-and-release.md), the [rename-dependency guide](../Documentation/guides/renames-and-references.md) and the [workload batches](../tracking/work-batches.md). For each object, record its original name, origin, role, source files, geometry/export relationship, assembly connections, status, design revision and evidence before publishing it as current.
