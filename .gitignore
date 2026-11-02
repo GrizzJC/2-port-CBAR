@@ -1,0 +1,28 @@
+# Operating system and editor clutter
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+*.tmp
+*.temp
+
+# Temporary CAD locks
+~$*
+
+# MATLAB editor autosaves
+*.asv
+
+# Temporary KiCad lock, autosave and cache files
+*.lck
+_autosave-*
+fp-info-cache
+
+# Build caches for possible future code
+__pycache__/
+*.pyc
+node_modules/
+dist/
+
+# Controlled CAD source, STL, STEP and 3MF files are intentionally NOT ignored.
