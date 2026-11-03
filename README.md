@@ -1,6 +1,12 @@
 # Two-Port Chemosensory Brief-Access Rig
 
-This repository contains technical files and reference instructions for the Samuelsen Lab's two-port experimental apparatus. **There are seven functional areas.**
+This repository has two distinct purposes: **engineering files** used to make, modify and control the rig, and **a guide** explaining how the complete rig should be assembled and operated. The engineering files are organized into seven functional areas.
+
+## Engineering files vs. the rig guide
+
+**Need an STL, 3MF, CNC design, electronic circuit or code?** Open **[Rig-Engineering-Files](Rig-Engineering-Files/)**.
+
+**Need instructions for assembling, connecting, operating, calibrating or maintaining the rig?** Open **[Rig-Assembly-and-Operation-Guide](Rig-Assembly-and-Operation-Guide/README.md)**. The guide is an outline until verified instructions and diagrams are added. It is **not** another functional area and does not contain duplicate manufacturing files.
 
 ## Find the right file
 
@@ -16,9 +22,9 @@ Rig-Engineering-Files/
 
 | Location | Contents |
 | --- | --- |
-| [Rig-Engineering-Files](Rig-Engineering-Files/) | **Technical files:** printing, CNC, code, electronics and component diagrams organized by function |
+| [Rig-Engineering-Files](Rig-Engineering-Files/) | **ACTUAL TECHNICAL FILES:** 3D printing, CNC, code, electronics and component diagrams organized by function |
 | [inventory.csv](inventory.csv) | **Master inventory:** file IDs, exact paths, original filenames, source and status |
-| [Setup-and-Operation](Setup-and-Operation/README.md) | **Whole-rig guide:** assembly, setup, calibration and maintenance |
+| [Rig-Assembly-and-Operation-Guide](Rig-Assembly-and-Operation-Guide/README.md) | **INSTRUCTIONS / GUIDE:** whole-rig assembly, setup, operation, calibration and maintenance (not yet validated) |
 | [Documentation](Documentation/) | **File-management rules:** naming, dependencies and source attribution |
 | [Templates](Templates/README-TEMPLATE.md) | Reusable README outline |
 

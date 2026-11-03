@@ -35,4 +35,4 @@ Equipment may exist physically without a repository file. Document verified rela
 
 ## 5. Verification and documentation
 
-All imported 3D-printing files remain **Unverified** for the current two-port rig. Consult the [inventory](../../inventory.csv) for IDs, original names, full file paths, status and recorded use. The [whole-rig manual](../../Setup-and-Operation/README.md) contains setup instructions; [naming and change rules](../../Documentation/NAMING-AND-FILE-RULES.md) explain revisions, print jobs and safe moves.
+All imported 3D-printing files remain **Unverified** for the current two-port rig. Consult the [inventory](../../inventory.csv) for IDs, original names, full file paths, status and recorded use. The [whole-rig manual](../../Rig-Assembly-and-Operation-Guide/README.md) contains setup instructions; [naming and change rules](../../Documentation/NAMING-AND-FILE-RULES.md) explain revisions, print jobs and safe moves.
