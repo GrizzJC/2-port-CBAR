@@ -1,15 +1,17 @@
-# Setup and operation manual
+# Setup and Operation — whole-rig manual
 
-This area explains the **integrated experimental rig** across the seven functional systems. It is the place for a human-readable build sequence, system overview, diagrams, wiring/connection overview, calibration, experimental operation and troubleshooting. Specific design source files remain in their respective system folders.
+**MANUAL / INSTRUCTIONS, not a functional system and not a manufacturing-file library.**
 
-| Area | Purpose |
-| --- | --- |
-| [System overview and schematics](Visuals-and-Schematics/README.md) | Rig-wide flow diagrams, wiring overviews, labeled photographs and connections across systems |
-| [Assembly guide](Assembly/README.md) | Whole-rig build order and fit/interconnection checks |
-| [Operation and protocols](Operation/README.md) | Startup, task flow, shutdown and experiment procedures |
-| [Calibration and verification](Calibration/README.md) | Behavioral apparatus calibration and system validation |
-| [Maintenance and troubleshooting](Maintenance/README.md) | Failure checks, cleaning, repairs and replacement decisions |
+This section is intended for the complete experimental apparatus: what connects to what, how to assemble the system, how to start an experiment, how to calibrate it and how to maintain it. The primary STL, 3MF, code and circuit files live in the [seven systems](../Systems/README.md).
 
-These pages are **documentation locations**, not claims that a verified procedure already exists. Add specific evidence and instructions as they become available; do not infer wiring, calibration constants or validated timing from older code. System-specific drawings and images remain near their source files when needed; the manual can link to them rather than duplicate them.
+| Manual section | What belongs here | Present state |
+| --- | --- | --- |
+| [Visuals and Schematics](Visuals-and-Schematics/README.md) | Rig-wide diagrams, connection flow and labeled overview images | Documentation placeholder |
+| [Assembly](Assembly/README.md) | Full-rig build sequence and interfaces | Documentation placeholder |
+| [Operation](Operation/README.md) | Startup, experiment run and shutdown | Documentation placeholder |
+| [Calibration](Calibration/README.md) | Tested calibration and functional checks | Documentation placeholder |
+| [Maintenance](Maintenance/README.md) | Cleaning, repairs and troubleshooting | Documentation placeholder |
 
-[System map](../Systems/README.md) · [Inventory](../inventory.csv)
+**System-specific illustrations** belong in that system's `Visuals-and-Schematics/` folder; this manual may link to them. Do not duplicate authoritative design files or publish guessed procedures as verified instructions.
+
+[Return to the repository start](../README.md) · [Master file inventory](../inventory.csv)

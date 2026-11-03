@@ -1,12 +1,15 @@
-# Documentation and procedures
+# Documentation — technical rules and source handling
 
-- [Naming, classification, numbering and status rules](NAMING-AND-FILE-RULES.md) — authoritative rules including split/merge and 3MF decisions.
-- [Source-file formats and storage](guides/file-formats-and-storage.md) — editable sources, printed exports and repository use.
-- [Renaming and dependent references](guides/renames-and-references.md) — source and software integrity checks.
-- [Revision and physical verification](standards/3d-revisions.md) — Git, source CAD versions and actual laboratory outcomes.
-- [3D intake and release procedure](procedures/3d-intake-and-release.md) — verification before an imported design is approved.
-- [Repository maintenance and handoff](guides/repository-management.md) — maintenance, licensing and source attribution.
-- [Setup and operations documentation](../Setup-and-Operation/README.md) — assembly and visual references.
-- [README template](../Templates/README-TEMPLATE.md) — shared eight-section structure.
+**DOCUMENTATION ONLY.** This is not another functional system and contains no STL/3MF manufacturing files.
 
-[Master inventory](../inventory.csv) is the authoritative file register; do not create a second copy of its changing records.
+| Document | Use |
+| --- | --- |
+| [Naming and File Rules](NAMING-AND-FILE-RULES.md) | File IDs, naming, classification, printing jobs, splitting/merging, statuses and permanent references |
+| [File Formats and Storage](guides/file-formats-and-storage.md) | Manufacturing formats and editable source-file handling |
+| [Rename and Dependency Safety](guides/renames-and-references.md) | Preventing broken CAD, slicer and code references |
+| [Revisions and Verification](standards/3d-revisions.md) | Difference between Git commits, native source versions and physical tests |
+| [Intake and Release](procedures/3d-intake-and-release.md) | Process for adding and verifying files |
+| [Repository Handoff](guides/repository-management.md) | Ownership, maintenance and provenance |
+| [Source MIT Notice](SOURCE-LICENSE-MIT.txt) | Preserved original licensing notice for imported material |
+
+Actual STL and 3MF files are located under [Systems](../Systems/README.md) → subgroup → `3D-Printing/`. The [master inventory](../inventory.csv) is the single file-by-file source of truth.

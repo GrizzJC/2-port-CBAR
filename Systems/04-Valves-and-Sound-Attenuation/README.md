@@ -1,39 +1,48 @@
-# Valves and Sound Attenuation
+# System 04 — Valves and Sound Attenuation
+
+**SYSTEM FOLDER (navigation and instructions), not a printable model.** Operates the valves and reduces sound from noisy valve equipment, not from the entire animal rig.
 
 ## 1. Overview
 
-Valves, their dedicated drivers and the enclosure that attenuates sound from noisy valve equipment.
+The numbered subgroups below are physical/functional groups within this system. They are **not additional systems**.
 
-## 2. File index
+## 2. Find actual files
 
-| Subgroup | Function | Imported printing files |
+| Subgroup | Component group | Printing-file availability |
 | --- | --- | --- |
-| 1 | Valve Sound Attenuation Chamber | [6 registered 3D-printing files](01-Valve-Sound-Attenuation-Chamber/3D-Printing/) |
-| 2 | Valve Driver and Hardware | [3 registered 3D-printing files](02-Valve-Driver-and-Hardware/3D-Printing/) |
-| 3 | Valve Interfaces and Mounts | [2 registered 3D-printing files](03-Valve-Interfaces-and-Mounts/3D-Printing/) |
+| 01 | [Valve Sound Attenuation Chamber](01-Valve-Sound-Attenuation-Chamber/README.md) | **6 actual STL/3MF files** — [open files](01-Valve-Sound-Attenuation-Chamber/3D-Printing/) |
+| 02 | [Valve Driver and Hardware](02-Valve-Driver-and-Hardware/README.md) | **3 actual STL/3MF files** — [open files](02-Valve-Driver-and-Hardware/3D-Printing/) |
+| 03 | [Valve Interfaces and Mounts](03-Valve-Interfaces-and-Mounts/README.md) | **2 actual STL/3MF files** — [open files](03-Valve-Interfaces-and-Mounts/3D-Printing/) |
 
-The [master inventory](../../inventory.csv) records IDs, filenames, full paths and status. Other file families may be added to these same functional subgroups after verification.
+**11 actual STL/3MF files** are present in this system. They are all imported and **Unverified** for the current two-port rig.
 
-## 3. Components and assembly
+## 3. Other file locations
 
-Use the subgroup structure for the actual physical assembly. Commercial equipment may be described without having a locally manufactured file. Reference connected systems by their authoritative file path.
+These locations are **empty placeholders** until actual files are added. They are deliberately kept at the **system level**, not repeated inside every subgroup.
 
-## 4. Fabrication
+| Folder | Intended contents | Current state |
+| --- | --- | --- |
+| [`CNC/`](CNC/README.md) | CNC machining files | **PLACEHOLDER — no actual files** |
+| [`Electronics/`](Electronics/README.md) | electronic circuit and wiring files | **PLACEHOLDER — no actual files** |
+| [`Software/`](Software/README.md) | software and control files | **PLACEHOLDER — no actual files** |
+| [`Visuals-and-Schematics/`](Visuals-and-Schematics/README.md) | system-specific images and diagrams | **PLACEHOLDER — no actual files** |
 
-Existing imported printing files are an unverified historical source baseline. Confirm machine/material, geometry and installation compatibility before use. CNC and other manufacturing sources must be verified before addition.
+## 4. Components and assembly
 
-## 5. Electronics and software
+See the subgroup README for the physical purpose of each group. Purchased equipment may be documented without a design file.
 
-Dedicated valve drivers and actuation controls belong here; integrated experiment operation belongs in system 7.
+## 5. Fabrication
 
-## 6. Installation and operation
+Real 3D-print files are only in the subgroup `3D-Printing/` directories linked above. CNC files will be placed in `CNC/` after review.
 
-See the [integrated setup and operation manual](../../Setup-and-Operation/README.md). Verified system-specific instructions can be added here. Avoid claiming an unverified component is installed.
+## 6. Electronics, software and operation
+
+Software, electronic designs and system illustrations have separate clearly labeled folders above. Whole-rig instructions belong in the [setup and operation manual](../../Setup-and-Operation/README.md).
 
 ## 7. Compatibility and dependencies
 
-Keep one authoritative source file per controlled item and link from other system READMEs where relevant. Native CAD and program references must be checked before changes.
+Keep one authoritative file and link to it from any other relevant system. Do not rename linked CAD or executable programs without checking their dependencies.
 
 ## 8. Verification and status
 
-The inventory records Unverified, Working, Validated, Approved, Do Not Use or Retired, and optional Revision Pending and Rig Status. Dates remain blank without actual evidence.
+The [master inventory](../../inventory.csv) records original and current paths, verification status and use history. Folder existence does not prove a component is installed, working or approved.

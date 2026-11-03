@@ -1,13 +1,17 @@
-# Loading Frame
+# Loading Frame — System 03
 
-**System 3:** Stimulus Storage and Selection.
+**SUBGROUP INFORMATION — this README is not a print file.**
 
-This subgroup groups equipment and files that carry out this specific function. It may contain source designs, manufactured parts, CNC files, electronics, software, photographs and notes where these are relevant.
+**What this subgroup is:** related loading frame components of **Stimulus Storage and Selection**.
 
-**Registered printing files:** None yet. This is a documented location, not evidence that files or manufactured components exist.
+## Actual STL and 3MF files
 
-For the complete inventory and file status, use the [master inventory](../../../inventory.csv). Other related subsystems should link to the authoritative file rather than copy it.
+**NONE YET.** This subgroup contains information only; no STL or 3MF file is available here.
 
-## Integration and supporting material
+[Check the master inventory](../../../inventory.csv) for newly registered files.
 
-Document genuine assembly relationships, setup images and external equipment here as they are verified. System-level setup instructions and full-rig diagrams belong in the [integrated manual](../../../Setup-and-Operation/README.md).
+## Other files and instructions
+
+For CNC, electronics, code or system-specific visuals, open the **System 03 [main page](../README.md)**. Those file-family folders are presently placeholders. Whole-rig assembly and operating instructions belong in the [manual](../../../Setup-and-Operation/README.md).
+
+**No unverified physical configuration, printer setting or installation status is implied by this folder.**

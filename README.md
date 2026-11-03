@@ -1,35 +1,38 @@
 # Two-Port Chemosensory Brief-Access Rig
 
-Engineering and operational resources for the Samuelsen Lab's two-port behavioral apparatus. This repository groups work by **what each system does**, not by file extension, fabrication material or modeling software.
+This repository is organized by **seven functions of the experimental rig**. Each functional system contains related component groups, actual manufacturing files and reserved locations for other file types.
 
-## Find what you need
+## First: where is the file?
 
-| Location | Purpose |
-| --- | --- |
-| [Systems](Systems/README.md) | Seven shared functional systems covering physical equipment, printable models, machining, electronics, software and controls |
-| [Master inventory](inventory.csv) | Registered printing files, original names, paths, identification and verification status |
-| [3D-printing overview](3D-Models/README.md) | How STL and prepared 3MF print jobs are organized within the systems |
-| [Setup and operation](Setup-and-Operation/README.md) | Rig-wide diagrams, assembly guidance, operation, calibration and troubleshooting |
-| [Naming and file rules](Documentation/NAMING-AND-FILE-RULES.md) | Prefixes, identifier capacity, split/merge rules, status meanings and source handling |
-| [Documentation](Documentation/README.md) | Engineering procedures and reference materials |
-| [Templates](Templates/README-TEMPLATE.md) | Reusable eight-section README template |
-
-## Seven functional systems
-
-| No. | Functional system | Scope |
+| Looking for | Open | What it contains |
 | --- | --- | --- |
-| 1 | [Behavioral Chamber and Animal Interface](Systems/01-Behavioral-Chamber/README.md) | The rat enclosure, access face and animal-facing hardware. This is not the valve sound attenuation chamber. |
-| 2 | [Stimulus Presentation and Access](Systems/02-Stimulus-Presentation-and-Access/README.md) | Spouts, delivery positioning at the animal-facing ports, shutters and access mechanisms. |
-| 3 | [Stimulus Storage and Selection](Systems/03-Stimulus-Storage-and-Selection/README.md) | Stimulus holding, loading and selection, including dedicated movement for presenting chosen stimuli. |
-| 4 | [Valves and Sound Attenuation](Systems/04-Valves-and-Sound-Attenuation/README.md) | Valves, their dedicated drivers and the enclosure that attenuates sound from noisy valve equipment. |
-| 5 | [Vacuum, Gas and Drainage](Systems/05-Vacuum-Gas-and-Drainage/README.md) | Vacuum, gas, rinse, drainage and related fluid removal interfaces. |
-| 6 | [Shared Structure and General Motion](Systems/06-Shared-Structure-and-Motion/README.md) | Shared-purpose framing, generic movement and mechanical fixtures not dedicated to another functional system. |
-| 7 | [Experimental Control, Sensing and Data](Systems/07-Experimental-Control-Sensing-and-Data/README.md) | Experiment-wide controls, behavioral sensing, calibration, session logic and experimental data handling. |
+| **STL or 3MF printing file** | [Systems](Systems/README.md) → numbered system → numbered subgroup → **`3D-Printing/`** | **112 real imported STL/3MF files** across the systems; see subgroup links below |
+| **CNC machining file** | [Systems](Systems/README.md) → system → **`CNC/`** | **PLACEHOLDERS only** for now |
+| **Electronics design** | [Systems](Systems/README.md) → system → **`Electronics/`** | **PLACEHOLDERS only** for now |
+| **MATLAB, Arduino or other software** | [Systems](Systems/README.md) → system → **`Software/`** | **PLACEHOLDERS only** for now |
+| **Component photograph or schematic** | [Systems](Systems/README.md) → system → **`Visuals-and-Schematics/`** | **PLACEHOLDERS only** for now |
+| **Whole-rig assembly, operating or calibration instructions** | [Setup and Operation](Setup-and-Operation/README.md) | **Documentation framework**, not manufacturing files |
+| **Search, filter or verify a file** | [Master inventory](inventory.csv) | File IDs, names, original sources, actual paths and status |
 
-## Status and provenance
+**Example of an actual printing folder:** [Behavioral Chamber → Cage Structure → 3D-Printing](Systems/01-Behavioral-Chamber/01-Cage-Structure/3D-Printing/). It contains real STL/3MF files. A `README.md` explains a folder; it is **not** a print file. A folder marked **PLACEHOLDER** has no verified project or technical file yet.
 
-The master inventory currently registers **112 imported manufacturing files (71 STL and 41 3MF)** copied unchanged from the earlier [three-port source repository](https://github.com/neuroMoth/3-Port-4-Bottle-Rig). Each row preserves its old name and location, original source path and content identifier. They have **not** been verified for physical compatibility with the present two-port rig. A copied source file is not evidence of an approved, installed or tested component.
+## The seven systems
 
-Other repository areas are prepared for future verified content. An explanatory page or empty placeholder does not establish that a design, procedure, controller or test record exists.
+| # | System | Imported STL/3MF files |
+| --- | --- | ---: |
+| 01 | [Behavioral Chamber and Animal Interface](Systems/01-Behavioral-Chamber/README.md) | 20 |
+| 02 | [Stimulus Presentation and Access](Systems/02-Stimulus-Presentation-and-Access/README.md) | 28 |
+| 03 | [Stimulus Storage and Selection](Systems/03-Stimulus-Storage-and-Selection/README.md) | 18 |
+| 04 | [Valves and Sound Attenuation](Systems/04-Valves-and-Sound-Attenuation/README.md) | 11 |
+| 05 | [Vacuum, Gas and Drainage](Systems/05-Vacuum-Gas-and-Drainage/README.md) | 29 |
+| 06 | [Shared Structure and General Motion](Systems/06-Shared-Structure-and-Motion/README.md) | 0 |
+| 07 | [Experimental Control, Sensing and Data](Systems/07-Experimental-Control-Sensing-and-Data/README.md) | 6 |
+| **Total** | | **112** |
 
-Source authorship and licensing must be respected. See the [original source license](https://github.com/neuroMoth/3-Port-4-Bottle-Rig/blob/main/LICENSE) and the [preserved imported MIT notice](Documentation/SOURCE-LICENSE-MIT.txt). No license for all materials in this repository is inferred from source-file inclusion.
+**These are the only seven functional systems.** [Documentation](Documentation/README.md) contains technical rules, [Templates](Templates/README-TEMPLATE.md) contains a reusable README outline and [Setup and Operation](Setup-and-Operation/README.md) contains the integrated manual. They are **not additional systems**.
+
+## File accuracy and status
+
+The 112 printing files were imported from the [earlier three-port source repository](https://github.com/neuroMoth/3-Port-4-Bottle-Rig) and remain **Unverified** for the current two-port rig. The [inventory](inventory.csv) preserves original filenames and paths. Do not treat source presence or a placeholder as evidence of installation, compatibility or approval.
+
+For file numbering, print-batch treatment, cross-system references and revision handling, see [Naming and File Rules](Documentation/NAMING-AND-FILE-RULES.md). Original author attribution and the [imported MIT notice](Documentation/SOURCE-LICENSE-MIT.txt) remain preserved; that notice does not license all new content automatically.

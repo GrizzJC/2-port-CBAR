@@ -1,13 +1,17 @@
-# Spout Tools and Alignment
+# Spout Tools and Alignment — System 02
 
-**System 2:** Stimulus Presentation and Access.
+**SUBGROUP INFORMATION — this README is not a print file.**
 
-This subgroup groups equipment and files that carry out this specific function. It may contain source designs, manufactured parts, CNC files, electronics, software, photographs and notes where these are relevant.
+**What this subgroup is:** related spout tools and alignment components of **Stimulus Presentation and Access**.
 
-**Registered printing files:** See `3D-Printing/` and the [inventory](../../../inventory.csv).
+## Actual STL and 3MF files
 
-For the complete inventory and file status, use the [master inventory](../../../inventory.csv). Other related subsystems should link to the authoritative file rather than copy it.
+**2 real printing files are available:** [Open `3D-Printing/` files](3D-Printing/). These are imported historical designs and remain **Unverified** for the current two-port apparatus.
 
-## Integration and supporting material
+**Examples:** `3DP-2-501_Teflon-Tube-Vac-Hole-Tool.3mf`; `3DP-2-502_Teflon-Tube-Vac-Hole-Tool.stl`. The [inventory](../../../inventory.csv) lists the complete set, original names and statuses.
 
-Document genuine assembly relationships, setup images and external equipment here as they are verified. System-level setup instructions and full-rig diagrams belong in the [integrated manual](../../../Setup-and-Operation/README.md).
+## Other files and instructions
+
+For CNC, electronics, code or system-specific visuals, open the **System 02 [main page](../README.md)**. Those file-family folders are presently placeholders. Whole-rig assembly and operating instructions belong in the [manual](../../../Setup-and-Operation/README.md).
+
+**No unverified physical configuration, printer setting or installation status is implied by this folder.**
