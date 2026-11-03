@@ -42,7 +42,7 @@ After approval, merge into `main`, update **Repository Filename (Live)**, GitHub
 
 **Repository snapshot:** `inventory.csv` is used for repository validation and offline identification, and must reflect the committed filenames/paths. To update it after approved changes, export the **File Inventory** tab as CSV, then use `python tools/sync_inventory.py path/to/File-Inventory.csv` to preview and `python tools/sync_inventory.py path/to/File-Inventory.csv --write` to update the root CSV. Review the resulting Git diff before commit. The sync command does not rename manufacturing files or approve any component.
 
-Avoid manually maintaining competing status registers. File review data that does not belong in the root GitHub snapshot stays in the existing Google Sheet.
+Avoid manually maintaining competing status registers. File review data that does not belong in the root GitHub snapshot stays in the existing Google Sheet. The CSV keeps separate **Original Source Blob SHA** (historical provenance) and **Current Blob SHA** (actual file revision). The automatic check validates the current hash. After an approved design change, update the Sheet's File SHA from Git and then synchronize. A reclassified design may keep its existing ID even if the old ID digits no longer match its current folder.
 
 ## 6. Tag a reproducible milestone
 

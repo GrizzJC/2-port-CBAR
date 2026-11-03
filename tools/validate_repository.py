@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the repository's lightweight file-inventory contract; no outside dependencies."""
+"""Check registered engineering files and paths. No third-party libraries."""
 import csv
 import hashlib
 from pathlib import Path
@@ -7,70 +7,74 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-REGISTER = ROOT / "inventory.csv"
-PRINT_RE = re.compile(r"^3DP-(\d)-(\d)(\d\d)_.+\.(?:stl|3mf)$", re.I)
-ID_RE = re.compile(r"^3DP-(\d)-(\d)(\d\d)$")
-errors = []
+INVENTORY = ROOT / "inventory.csv"
+LIBRARY = ROOT / "Rig-Engineering-Files"
+FOLDERS = {"3DP": "3D-Printing", "CNC": "CNC", "SW": "Code", "EL": "Electronics"}
+ID_PATTERN = re.compile(r"^(3DP|CNC|SW|EL)-[1-7]-[1-9][0-9]{2}$")
+issues = []
 
-def fail(message):
-    errors.append(message)
+def error(message):
+    issues.append(message)
 
-def blob_sha(path):
-    content = path.read_bytes()
+def git_blob_sha(file):
+    content = file.read_bytes()
     return hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
 
-with REGISTER.open(encoding="utf-8-sig", newline="") as handle:
-    reader = csv.DictReader(handle)
-    required = ("File ID", "Current Filename", "Format", "Current Path", "Source Blob SHA")
+with INVENTORY.open(newline="", encoding="utf-8-sig") as f:
+    reader = csv.DictReader(f)
+    required = ("File ID", "Current Filename", "Current Path", "Format", "Current Blob SHA")
     if not set(required).issubset(reader.fieldnames or []):
-        fail("inventory.csv is missing required columns: " + ", ".join(required))
-        rows = []
+        error("Missing required inventory columns: " + ", ".join(required))
+        records = []
     else:
-        rows = list(reader)
+        records = list(reader)
 
-ids = set()
-registered = set()
-for index, row in enumerate(rows, 2):
-    fid = row["File ID"].strip()
-    rel = row["Current Path"].strip()
-    name = row["Current Filename"].strip()
-    if fid in ids:
-        fail(f"line {index}: duplicate File ID {fid}")
-    ids.add(fid)
-    if rel in registered:
-        fail(f"line {index}: duplicate path {rel}")
-    registered.add(rel)
-    m = ID_RE.fullmatch(fid)
-    expected = Path("Rig-Engineering-Files")
-    if m is None:
-        fail(f"line {index}: unexpected ID format {fid}")
+seen_ids, seen_paths = set(), set()
+for i, r in enumerate(records, 2):
+    fid, rel = r["File ID"].strip(), r["Current Path"].strip()
+    if fid in seen_ids:
+        error(f"line {i}: duplicate file ID {fid}")
+    if rel in seen_paths:
+        error(f"line {i}: duplicate path {rel}")
+    seen_ids.add(fid)
+    seen_paths.add(rel)
+    match = ID_PATTERN.fullmatch(fid)
+    if not match:
+        error(f"line {i}: invalid ID {fid}")
         continue
-    path = ROOT / rel
     parts = Path(rel).parts
-    if len(parts) != 5 or parts[0] != str(expected) or not parts[1].startswith(f"0{m[1]}-") or parts[2] != "3D-Printing" or not parts[3].startswith(f"0{m[2]}-"):
-        fail(f"line {index}: ID/system/subgroup/path mismatch: {rel}")
-    if Path(rel).name != name or not name.startswith(fid + "_"):
-        fail(f"line {index}: filename does not match record and ID: {name}")
-    if name.rsplit(".", 1)[-1].upper() != row["Format"].strip().upper():
-        fail(f"line {index}: extension/format mismatch for {name}")
-    if not path.is_file():
-        fail(f"line {index}: referenced file not found: {rel}")
-    elif blob_sha(path) != row["Source Blob SHA"].strip():
-        fail(f"line {index}: file contents differ from recorded Git blob: {rel}")
+    typ = match[1]
+    if len(parts) not in (4, 5) or parts[0] != "Rig-Engineering-Files" or not re.match(r"^0[1-7]-", parts[1]) or parts[2] != FOLDERS[typ]:
+        error(f"line {i}: wrong engineering folder for {fid}: {rel}")
+    # The ID is intentionally stable after future functional reclassification.
+    # Therefore its original system/subgroup digits need not match today's folder.
+    name = Path(rel).name
+    if name != r["Current Filename"].strip():
+        error(f"line {i}: filename/path mismatch for {fid}")
+    if name.rsplit(".", 1)[-1].upper() != r["Format"].strip().upper():
+        error(f"line {i}: incorrect format for {name}")
+    if typ == "3DP" and Path(name).suffix.lower() in (".stl", ".3mf") and not name.startswith(fid + "_"):
+        error(f"line {i}: printing filename must include assigned ID: {name}")
+    file = ROOT / rel
+    if not file.is_file() or not file.resolve().is_relative_to(LIBRARY.resolve()):
+        error(f"line {i}: registered file missing/unsafe path: {rel}")
+    elif git_blob_sha(file) != r["Current Blob SHA"].strip():
+        error(f"line {i}: recorded current content hash differs: {rel}")
 
-present = {p.relative_to(ROOT).as_posix() for p in (ROOT / "Rig-Engineering-Files").rglob("*") if p.is_file() and p.suffix.lower() in (".stl", ".3mf")}
-for path in sorted(present - registered):
-    fail("unregistered printing file: " + path)
-for path in sorted(registered - present):
-    fail("inventory path absent from printing files: " + path)
-
-for placeholder in (ROOT / "Rig-Engineering-Files").rglob(".gitkeep"):
-    if any(p.name != ".gitkeep" for p in placeholder.parent.iterdir()):
-        fail("redundant .gitkeep in populated folder: " + str(placeholder.relative_to(ROOT)))
-
-if errors:
-    for message in errors:
-        print("ERROR:", message, file=sys.stderr)
-    print(f"FAILED: {len(errors)} problems.", file=sys.stderr)
+actual = {
+    f.relative_to(ROOT).as_posix()
+    for f in LIBRARY.rglob("*")
+    if f.is_file() and f.name != ".gitkeep" and f.name != "README.md"
+}
+for p in sorted(actual - seen_paths):
+    error("Engineering file not registered in inventory: " + p)
+for p in sorted(seen_paths - actual):
+    error("Inventory file does not exist: " + p)
+for p in LIBRARY.rglob(".gitkeep"):
+    if any(f.name != ".gitkeep" for f in p.parent.iterdir()):
+        error("Remove unused .gitkeep from populated folder: " + p.relative_to(ROOT).as_posix())
+if issues:
+    for msg in issues:
+        print("ERROR:", msg, file=sys.stderr)
     sys.exit(1)
-print(f"PASS: {len(rows)} print-file records, all registered paths, IDs and content hashes match.")
+print(f"PASS: {len(records)} records, file paths and current content hashes verified.")

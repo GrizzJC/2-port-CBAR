@@ -1,79 +1,111 @@
 #!/usr/bin/env python3
-"""Preview or synchronize the GitHub inventory snapshot from the existing Google Sheet export.
+"""Export 'File Inventory' tab as CSV, then preview or write the GitHub inventory snapshot.
 
-Export only the 'File Inventory' tab as CSV. Does not rename files or approve status.
+No files are renamed, no status is approved and no Google Sheet is modified.
 """
 import argparse
 import csv
+import hashlib
+import os
 from pathlib import Path
 from tempfile import NamedTemporaryFile
-import os
-import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 DEST = ROOT / "inventory.csv"
+LIBRARY = ROOT / "Rig-Engineering-Files"
 
-def read_rows(path):
-    with path.open(encoding="utf-8-sig", newline="") as handle:
-        reader = csv.DictReader(handle)
-        return list(reader.fieldnames or []), list(reader)
+def read(path):
+    with path.open(newline="", encoding="utf-8-sig") as fh:
+        rdr = csv.DictReader(fh)
+        return list(rdr.fieldnames or []), list(rdr)
+
+def git_blob_sha(file):
+    content = file.read_bytes()
+    return hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("exported_csv", type=Path)
-parser.add_argument("--write", action="store_true", help="Update inventory.csv after a clean preview")
+parser.add_argument("--write", action="store_true", help="Write inventory.csv after reviewing the preview")
 args = parser.parse_args()
-heads, source = read_rows(args.exported_csv)
-existing_heads, saved = read_rows(DEST)
-needed = ["File ID", "Repository Filename (Live)", "Repository Path", "File Status", "Original Source Path", "File SHA"]
-missing = [field for field in needed if field not in heads]
-if missing:
-    parser.error("Export must be from the 'File Inventory' tab; missing: " + ", ".join(missing))
-index = {row["File ID"]: row for row in saved}
-if len(index) != len(saved):
-    parser.error("GitHub inventory has duplicate IDs")
-seen = set()
-changed = 0
-result = []
-for record in source:
-    fid = record["File ID"].strip()
+columns, spreadsheet = read(args.exported_csv)
+old_columns, old_rows = read(DEST)
+needs = (
+    "File ID", "Current Filename (Original Source)", "Repository Filename (Live)",
+    "Repository Path", "File Status", "Format", "File Role", "Functional Area",
+    "Component Group",
+)
+for col in needs:
+    if col not in columns:
+        parser.error("Expected export of 'File Inventory' tab; missing: " + col)
+if "Original Source Blob SHA" not in old_columns or "Current Blob SHA" not in old_columns:
+    parser.error("Repository CSV schema needs original and current content hashes")
+older = {r["File ID"]: r for r in old_rows}
+if len(older) != len(old_rows):
+    parser.error("Duplicate File IDs already exist in repository CSV")
+
+result, seen = [], set()
+for row in spreadsheet:
+    fid = row["File ID"].strip()
     if not fid:
         continue
     if fid in seen:
-        parser.error(f"Duplicate spreadsheet ID {fid}")
+        parser.error("Duplicate spreadsheet file ID: " + fid)
     seen.add(fid)
-    if fid not in index:
-        parser.error(f"New ID {fid} requires manual intake with source/provenance first")
-    previous = dict(index[fid])
-    current = record["Repository Filename (Live)"].strip()
-    path = record["Repository Path"].strip()
-    real_path = ROOT / path
-    if real_path.name != current or not real_path.is_file():
-        parser.error(f"File not found or name mismatch for {fid}: {path}. Proposals are NOT live filenames.")
-    if previous["Source Blob SHA"] != record["File SHA"].strip():
-        parser.error(f"Blob identifier mismatch for {fid}; review modified source and update tracking explicitly")
-    previous.update({
-        "Current Filename": current,
-        "Current Path": path,
-        "Verification Status": record["File Status"].strip() or "Unverified",
-        "Revision Pending": record.get("Revision Pending", previous.get("Revision Pending", "")),
-        "Rig Status": record.get("Rig Status", previous.get("Rig Status", "")),
-        "Last Verified": record.get("Last Verified", ""),
-        "Last Used or Printed": record.get("Last Printed", "") or record.get("Last Used", ""),
-        "Related Parts / Notes": record.get("Notes / Issues", ""),
-    })
-    result.append(previous)
-    if previous != index[fid]:
-        changed += 1
-if seen != set(index):
-    parser.error("Mismatch: spreadsheet and repository snapshots must contain the same registered IDs")
-print(f"{len(result)} records; {changed} records differ from the repository snapshot.")
+    live_name = row["Repository Filename (Live)"].strip()
+    rel = row["Repository Path"].strip()
+    file = (ROOT / rel).resolve()
+    if file.name != live_name or not file.is_relative_to(LIBRARY.resolve()) or not file.is_file():
+        parser.error(f"Live filename/path does not match GitHub checkout: {fid} {rel}")
+    sha = git_blob_sha(file)
+    expected = (row.get("File SHA") or "").strip()
+    if expected and expected != sha:
+        parser.error(f"Spreadsheet SHA needs update for {fid}: actual file changed")
+    before = older.get(fid)
+    if before is None:
+        before = dict.fromkeys(old_columns, "")
+        before["File ID"] = fid
+        before["Original Source Blob SHA"] = sha
+        before["Verification Status"] = "Unverified"
+    current = dict(before)
+    updates = {
+        "Current Filename": live_name,
+        "Current Path": rel,
+        "Format": row["Format"],
+        "File Role": row["File Role"],
+        "Functional System": row["Functional Area"],
+        "Subgroup": row["Component Group"],
+        "Verification Status": row["File Status"] or "Unverified",
+        "Current Blob SHA": sha,
+    }
+    for dest, source in (
+        ("Original Filename", "Current Filename (Original Source)"),
+        ("Original Source URL", "Original Source URL"),
+        ("Original Source Path", "Original Source Path"),
+        ("Revision Pending", "Revision Pending"),
+        ("Rig Status", "Rig Status"),
+        ("Last Verified", "Last Verified"),
+        ("Related Parts / Notes", "Notes / Issues"),
+    ):
+        value = (row.get(source) or "").strip()
+        if value:
+            updates[dest] = value
+    date = (row.get("Last Used") or "").strip() or (row.get("Last Printed") or "").strip()
+    if date:
+        updates["Last Used or Printed"] = date
+    current.update(updates)
+    result.append(current)
+if set(older) - seen:
+    parser.error("Spreadsheet is missing registered IDs; retire a file explicitly instead of silently deleting its inventory record")
+changed = sum(result_row != older.get(result_row["File ID"]) for result_row in result)
+new_ids = [r["File ID"] for r in result if r["File ID"] not in older]
+print(f"{len(result)} records; {changed} changes; {len(new_ids)} new IDs.")
 if not args.write:
-    print("Preview only; pass --write after reviewing the source and upcoming Git diff.")
-    sys.exit(0)
-with NamedTemporaryFile("w", encoding="utf-8", newline="", dir=DEST.parent, delete=False) as tmp:
-    writer = csv.DictWriter(tmp, fieldnames=existing_heads, extrasaction="ignore")
-    writer.writeheader()
-    writer.writerows(result)
-    temp_name = tmp.name
-os.replace(temp_name, DEST)
-print("Updated inventory.csv; inspect git diff and run python tools/validate_repository.py.")
+    print("Preview only. Use --write after reviewing changes, then inspect git diff and run the validator.")
+else:
+    with NamedTemporaryFile("w", encoding="utf-8-sig", newline="", dir=DEST.parent, delete=False) as fh:
+        writer = csv.DictWriter(fh, fieldnames=old_columns)
+        writer.writeheader()
+        writer.writerows(result)
+        tmp = fh.name
+    os.replace(tmp, DEST)
+    print("Updated inventory.csv; review the Git diff before committing.")
