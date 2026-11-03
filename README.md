@@ -1,36 +1,42 @@
 # Two-Port Chemosensory Brief-Access Rig
 
-This repository stores the hardware designs and working references for the Samuelsen Lab's two-port behavioral rig. **There are exactly seven functional systems.** Other top-level folders contain documentation or reusable templates, not more systems.
+This repository contains technical files and reference instructions for the Samuelsen Lab's two-port experimental apparatus. **There are seven functional areas.**
 
-## Where to go
+## Find the right file
 
-| Location | What it is | What you will find |
-| --- | --- | --- |
-| [Systems](Systems/) | **Hardware and technical file library** | Seven numbered system folders; actual STL/3MF files in `[system]/[subgroup]/3D-Printing/` |
-| [inventory.csv](inventory.csv) | **Single file inventory** | Current and original filenames, file IDs, source locations and status |
-| [Setup-and-Operation](Setup-and-Operation/README.md) | **Whole-rig manual** | Central setup and operations outline; diagrams have a dedicated location |
-| [Documentation](Documentation/) | **Rules and reference instructions** | Naming rules, dependency safety and imported source license |
-| [Templates](Templates/README-TEMPLATE.md) | **Reusable document template** | Optional standard README structure |
+**Open [Rig-Engineering-Files](Rig-Engineering-Files/), choose a numbered functional area, choose a file type and then choose a component group.**
 
-## The seven systems
+```text
+Rig-Engineering-Files/
+  01-Behavioral-Chamber/        ← functional area
+    3D-Printing/                ← file type
+      01-Cage-Structure/        ← component group
+        3DP-1-101_....3mf       ← actual manufacturing file
+```
 
-| # | System | Actual STL/3MF files |
+| Location | Contents |
+| --- | --- |
+| [Rig-Engineering-Files](Rig-Engineering-Files/) | **Technical files:** printing, CNC, code, electronics and component diagrams organized by function |
+| [inventory.csv](inventory.csv) | **Master inventory:** file IDs, exact paths, original filenames, source and status |
+| [Setup-and-Operation](Setup-and-Operation/README.md) | **Whole-rig guide:** assembly, setup, calibration and maintenance |
+| [Documentation](Documentation/) | **File-management rules:** naming, dependencies and source attribution |
+| [Templates](Templates/README-TEMPLATE.md) | Reusable README outline |
+
+## The seven functional areas
+
+| # | Area | Imported STL and 3MF files |
 | --- | --- | ---: |
-| 01 | [Behavioral Chamber and Animal Interface](Systems/01-Behavioral-Chamber/README.md) | 20 |
-| 02 | [Stimulus Presentation and Access](Systems/02-Stimulus-Presentation-and-Access/README.md) | 28 |
-| 03 | [Stimulus Storage and Selection](Systems/03-Stimulus-Storage-and-Selection/README.md) | 18 |
-| 04 | [Valves and Sound Attenuation](Systems/04-Valves-and-Sound-Attenuation/README.md) | 11 |
-| 05 | [Vacuum, Gas and Drainage](Systems/05-Vacuum-Gas-and-Drainage/README.md) | 29 |
-| 06 | [Shared Structure and General Motion](Systems/06-Shared-Structure-and-Motion/README.md) | 0 |
-| 07 | [Experimental Control, Sensing and Data](Systems/07-Experimental-Control-Sensing-and-Data/README.md) | 6 |
+| 01 | [Behavioral Chamber and Animal Interface](Rig-Engineering-Files/01-Behavioral-Chamber/README.md) | 20 |
+| 02 | [Stimulus Presentation and Access](Rig-Engineering-Files/02-Stimulus-Presentation-and-Access/README.md) | 28 |
+| 03 | [Stimulus Storage and Selection](Rig-Engineering-Files/03-Stimulus-Storage-and-Selection/README.md) | 18 |
+| 04 | [Valves and Sound Attenuation](Rig-Engineering-Files/04-Valves-and-Sound-Attenuation/README.md) | 11 |
+| 05 | [Vacuum, Gas and Drainage](Rig-Engineering-Files/05-Vacuum-Gas-and-Drainage/README.md) | 29 |
+| 06 | [Shared Structure and General Motion](Rig-Engineering-Files/06-Shared-Structure-and-Motion/README.md) | 0 |
+| 07 | [Experimental Control, Sensing and Data](Rig-Engineering-Files/07-Experimental-Control-Sensing-and-Data/README.md) | 6 |
 | | **Total** | **112** |
 
-**Example: locating a real print file**
+Inside each functional area you will find `3D-Printing/`, `CNC/`, `Code/`, `Electronics/` and `Images-and-Diagrams/`. A `.gitkeep` file means the directory is reserved but **has no real technical files yet**. Only the 3D-printing directories currently contain imported manufacturing files.
 
-`Systems/01-Behavioral-Chamber/01-Cage-Structure/3D-Printing/`
+**Verification:** The 112 imported STL and 3MF files originated in the [earlier three-port rig repository](https://github.com/neuroMoth/3-Port-4-Bottle-Rig). Their fit and suitability for the current two-port rig have **not** been verified. The inventory preserves source names and paths.
 
-The folder above contains actual STL and 3MF files. A `README.md` explains a folder; it is **not** a print file. `CNC/`, `Software/`, `Electronics/` and `Visuals-and-Schematics/` within each system currently contain only empty-directory placeholders.
-
-**Do not mistake a placeholder for a finished design.** The 112 imported printing files originate from the earlier [three-port repository](https://github.com/neuroMoth/3-Port-4-Bottle-Rig) and are not yet verified for the current two-port rig.
-
-[File naming and status rules](Documentation/NAMING-AND-FILE-RULES.md) · [File dependency safety](Documentation/FILE-DEPENDENCIES.md) · [Preserved source license](Documentation/SOURCE-LICENSE-MIT.txt)
+[File naming and status rules](Documentation/NAMING-AND-FILE-RULES.md) · [Dependency safety](Documentation/FILE-DEPENDENCIES.md) · [Source MIT notice](Documentation/SOURCE-LICENSE-MIT.txt)

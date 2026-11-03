@@ -4,7 +4,7 @@
 
 ## Rig overview and schematics
 
-Use [Visuals-and-Schematics](Visuals-and-Schematics/README.md) for whole-rig diagrams and labeled setup images. System-specific schematics belong in the appropriate functional system and may be linked here. **No verified complete-rig diagram has been added yet.**
+Use [Images-and-Diagrams](Images-and-Diagrams/README.md) for whole-rig diagrams and labeled setup images. System-specific schematics belong in the appropriate functional system and may be linked here. **No verified complete-rig diagram has been added yet.**
 
 ## Assembly
 

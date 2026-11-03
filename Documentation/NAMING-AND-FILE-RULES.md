@@ -19,7 +19,7 @@ Native SolidWorks, Fusion and STEP are **not a separate family by default**. Ass
 
 A fixed batch of ten numbers breaks when a design gains, splits or combines parts. With the subgroup as the hundreds place, each category has **99 numbered positions**. Related files are allocated adjacent numbers initially, but new files later take the next free number in the same subgroup without renumbering other parts. Folder names and the master inventory, not numerical adjacency alone, express assembly membership.
 
-Seven systems and their subgroups are listed in the [seven-system map](../README.md). An ID retains its original assigned number if a design is relocated or reclassified. Do not recycle retired IDs.
+Seven functional areas and their subgroups are listed in the [repository index](../README.md). The library is organized as **Rig-Engineering-Files → functional area → file type → component subgroup → file**. A subgroup name can be used under different file types when relevant, but create its directory only when there are actual files to store. An ID retains its original assigned number if a design is relocated or reclassified. Do not recycle retired IDs.
 
 ### Capacity at the imported printing-file baseline
 
@@ -73,6 +73,6 @@ The imported source is a three-port version; none of its copied files should be 
 
 When adding a file, identify its intended function and manufacturing role, preserve original source/provenance, check filename dependencies, allocate an available subgroup ID, place only the actual file and update the [master inventory](../inventory.csv). Keep the source project's version or commit reference where it matters for reproducibility. Record testing or physical-use dates only from actual evidence; a committed file is not automatically approved.
 
-Keep `README.md` files only where they supply useful system or operating information. **Do not maintain duplicate inventories, redundant revision ledgers or placeholder READMEs for empty component subgroups.** Empty locations for CNC, electronics, software and system-specific illustrations are represented by `.gitkeep`, with their purpose explained in each system's README. Once real files are added, remove the `.gitkeep` for that folder.
+Keep `README.md` files only where they supply useful system or operating information. **Do not maintain duplicate inventories, redundant revision ledgers or placeholder READMEs for empty component subgroups.** Empty locations for CNC, electronics, code and system-specific images and diagrams are represented by `.gitkeep`, with their purpose explained in each system's README. Once real files are added, remove the `.gitkeep` for that folder.
 
 GitHub stores committed changes, not unsaved local edits. Source CAD versions, Git history and physical validation remain distinct. Keep source attribution and licenses intact. Do not commit sensitive research or animal records to a public repository without permission. A later transfer to a laboratory organization should preserve repository history and verify access, dependencies and ownership first.
