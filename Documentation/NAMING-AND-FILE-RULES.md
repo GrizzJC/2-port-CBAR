@@ -2,6 +2,14 @@
 
 ## 1. Purpose and naming format
 
+### Filename convention: stable ID, then clear function
+
+Use `<File-ID>_<Descriptive-Function>[-<Position-or-Variant>].<extension>`. Descriptive words should help a new user recognize the component, not merely repeat the system name. Use plain words separated by hyphens; preserve the original name in the Google Sheet. Do not put transient verification status, print quantity, dates or routine revision numbers in the filename. Git commits and release tags track revisions; a genuinely separate physical variant needs its own clear suffix and an independent file ID when both variants are maintained.
+
+For **STL** meshes, name the specific part, e.g. `3DP-1-102_Cage-Front-Leg-I.stl`. For **3MF** prepared printing projects, prefix the description with `PrintJob-`, e.g. `3DP-1-101_PrintJob-Cage-Front-Legs-I.3mf`, after checking the actual objects. These are **naming illustrations**, not verified contents or approved renames. Use `Assembly-` only for a true assembly-specific file. Do not label an object's side `Left` or `Right` without geometry/evidence. Existing filename strings remain provisional until the file-by-file review.
+
+Three distinct names must remain traceable: **Original Source Filename** (before CBAR import), **Proposed Filename** (current candidate, initially the existing CBAR name) and **Repository Filename (Live)** (actual GitHub basename). The stable File ID is a separate identifier and never a substitute for a descriptive component name. The authoritative working review is in [the existing Google Sheet](https://docs.google.com/spreadsheets/d/1gD6PC8YFJGNSHkLBSL6r_NcwHOtmynXgbYKcXxWVr7A/edit).
+
 A filename should be recognizable, have a stable identifier and point to one maintained source. A file's **purpose** determines its family, not its extension, modeling application or whether a manufactured item is plastic, resin or metal.
 
 **Identifier:** `TYPE-S-GNN` (example `3DP-1-201`). `TYPE` is the file-purpose family, `S` is one of the seven systems, `G` is its numbered subgroup (1–9) and `NN` is a two-digit sequence (01–99). Subgroup 0 is reserved, not used in the current collection. A complete identifier is unique. Prefix families have independent sequences, so `3DP-1-201` and `CNC-1-201` are different IDs. Always cite the full ID, never just `201`.
@@ -65,11 +73,13 @@ Before changing a SolidWorks/Fusion source, 3MF project or executable MATLAB/Ard
 
 ## 6. Single inventory and provenance
 
-The root [inventory.csv](../inventory.csv) is the **single authoritative file and component register**. It holds original names, original paths, current paths, source references, status and recorded test/use facts. System READMEs should explain equipment and relationships rather than duplicate the entire changing inventory. When verified non-print assets are added, use the same inventory or a carefully justified extension rather than another manually synchronized register.
+The existing [Google Sheet](https://docs.google.com/spreadsheets/d/1gD6PC8YFJGNSHkLBSL6r_NcwHOtmynXgbYKcXxWVr7A/edit) is the **single working file and print review register**. The root [inventory.csv](../inventory.csv) is its **GitHub snapshot for traceability and repository checks**. Update it deliberately from the working sheet after approved changes, not as a second independently editable status ledger. It holds original names, original paths, current paths, source references, status and recorded test/use facts. System READMEs should explain equipment and relationships rather than duplicate the entire changing inventory. When verified non-print assets are added, use the same inventory or a carefully justified extension rather than another manually synchronized register.
 
 The imported source is a three-port version; none of its copied files should be described as compatible with the current two-port apparatus without appropriate evidence.
 
 ## 7. Intake and maintenance
+
+See the [engineering workflow](ENGINEERING-WORKFLOW.md) for actual change requests, branch work, peer review, testing, inventory synchronization and release tags. The repository validator catches file/path/hash errors, not physical fit or experimental validity.
 
 When adding a file, identify its intended function and manufacturing role, preserve original source/provenance, check filename dependencies, allocate an available subgroup ID, place only the actual file and update the [master inventory](../inventory.csv). Keep the source project's version or commit reference where it matters for reproducibility. Record testing or physical-use dates only from actual evidence; a committed file is not automatically approved.
 

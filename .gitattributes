@@ -1,0 +1,11 @@
+# Manufacturing and native design sources must not undergo text-line normalization.
+*.stl binary
+*.3mf binary
+*.step binary
+*.stp binary
+*.sldprt binary
+*.sldasm binary
+*.f3d binary
+*.f3z binary
+*.kicad_pcb text
+*.kicad_sch text

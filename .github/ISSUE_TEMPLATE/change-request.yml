@@ -1,0 +1,29 @@
+name: Engineering change or new component
+description: Request a new part, change an existing design, or correct documentation.
+title: "[Change] "
+labels: []
+body:
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Goal / problem
+      description: What needs to change, and why?
+    validations:
+      required: true
+  - type: input
+    id: files
+    attributes:
+      label: Affected file IDs and functional area
+      description: Put "new component" when no ID exists yet.
+  - type: textarea
+    id: change
+    attributes:
+      label: Proposed change and dependencies
+      description: Include original source, affected assemblies, CAD/software references, materials and known risks.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Tests or evidence needed
+      description: Print and fit checks, electronics tests, code tests or an explanation if not applicable.

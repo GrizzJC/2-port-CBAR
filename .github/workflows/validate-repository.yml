@@ -1,0 +1,20 @@
+name: Validate repository inventory
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'work/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check file IDs, paths, hashes and placeholders
+        run: python tools/validate_repository.py

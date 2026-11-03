@@ -23,10 +23,14 @@ Rig-Engineering-Files/
 | Location | Contents |
 | --- | --- |
 | [Rig-Engineering-Files](Rig-Engineering-Files/) | **ACTUAL TECHNICAL FILES:** 3D printing, CNC, code, electronics and component diagrams organized by function |
-| [inventory.csv](inventory.csv) | **Master inventory:** file IDs, exact paths, original filenames, source and status |
+| [inventory.csv](inventory.csv) | **Repository snapshot:** file IDs, exact paths, original filenames, source and status. Working changes are maintained in the existing [Google Sheet](https://docs.google.com/spreadsheets/d/1gD6PC8YFJGNSHkLBSL6r_NcwHOtmynXgbYKcXxWVr7A/edit) |
 | [Rig-Assembly-and-Operation-Guide](Rig-Assembly-and-Operation-Guide/README.md) | **INSTRUCTIONS / GUIDE:** whole-rig assembly, setup, operation, calibration and maintenance (not yet validated) |
 | [Documentation](Documentation/) | **File-management rules:** naming, dependencies and source attribution |
 | [Templates](Templates/README-TEMPLATE.md) | Reusable README outline |
+
+## Making changes, review and releases
+
+Use the [Engineering Workflow](Documentation/ENGINEERING-WORKFLOW.md) for new files, development branches, review, print tests, inventory synchronization and reproducible version tags. The [GitHub change-request form](.github/ISSUE_TEMPLATE/change-request.yml) and [pull-request checklist](.github/PULL_REQUEST_TEMPLATE.md) are ready to use. The [automatic inventory check](.github/workflows/validate-repository.yml) checks administrative consistency but cannot validate physical compatibility.
 
 ## The seven functional areas
 
@@ -43,6 +47,6 @@ Rig-Engineering-Files/
 
 Inside each functional area you will find `3D-Printing/`, `CNC/`, `Code/`, `Electronics/` and `Images-and-Diagrams/`. A `.gitkeep` file means the directory is reserved but **has no real technical files yet**. Only the 3D-printing directories currently contain imported manufacturing files.
 
-**Verification:** The 112 imported STL and 3MF files originated in the [earlier three-port rig repository](https://github.com/neuroMoth/3-Port-4-Bottle-Rig). Their fit and suitability for the current two-port rig have **not** been verified. The inventory preserves source names and paths.
+**Verification:** The 112 imported STL and 3MF files originated in the [earlier three-port rig repository](https://github.com/neuroMoth/3-Port-Bpod-Rig). Their fit and suitability for the current two-port rig have **not** been verified. The inventory preserves source names and paths.
 
 [File naming and status rules](Documentation/NAMING-AND-FILE-RULES.md) · [Dependency safety](Documentation/FILE-DEPENDENCIES.md) · [Source MIT notice](Documentation/SOURCE-LICENSE-MIT.txt)

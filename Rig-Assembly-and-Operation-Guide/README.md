@@ -22,4 +22,6 @@ This section will document the actual procedures and acceptance criteria for mot
 
 This section will document cleaning, inspections, known symptoms, verified fixes and replacement procedures. **No lab-specific maintenance procedure has yet been verified.**
 
+For editing or reviewing actual rig designs, follow the [engineering workflow](../Documentation/ENGINEERING-WORKFLOW.md). Do not turn a planned guide section into an unverified lab protocol.
+
 Start with the [seven-system index](../README.md). The [inventory](../inventory.csv) identifies actual files and status.
