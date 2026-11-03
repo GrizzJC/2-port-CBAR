@@ -1,44 +1,35 @@
-# 2-Port Chemosensory Brief-Access Rig (CBAR)
+# Two-Port Chemosensory Brief-Access Rig
 
-Engineering and laboratory documentation for the **Samuelsen Lab's two-port chemosensory brief-access task**. The repository can hold the mechanical designs, fabrication projects, electronics, control software, experimental protocols, manuals and maintenance information required to build and maintain the system.
-
-The *two-port task* defines the repository's scope. The current number of bottles, motors, valves or printable parts does **not** define a component's permanent identity.
+Engineering and operational resources for the Samuelsen Lab's two-port behavioral apparatus. This repository groups work by **what each system does**, not by file extension, fabrication material or modeling software.
 
 ## Find what you need
 
-| Location | Use |
+| Location | Purpose |
 | --- | --- |
-| **[File organization and naming register](FILE-ORGANIZATION.md)** | Complete indexed list of files presently in this repository, file-placement rules, identifiers and status definitions |
-| [3D model library](3D-Models/README.md) | Where part sources, exports, assemblies, print projects and vendor references belong |
-| [Functional 3D system map](3D-Models/Systems/README.md) | Eleven physical system categories, independent of file type and printing process |
-| [Assembly grouping](3D-Models/Assemblies/Groups/README.md) | How components connect and which assemblies they belong to |
-| [Documentation](Documentation/README.md) | Naming, CAD source history, 3D release control, printing and storage guidelines |
-| [Tracking](tracking/README.md) | CSV registers for component/file intake, dependencies, build configurations and manufacturing records |
-| [Work batches](tracking/work-batches.md) | How to inventory, evaluate, place and verify assets without losing dependencies |
+| [Systems](Systems/README.md) | Seven shared functional systems covering physical equipment, printable models, machining, electronics, software and controls |
+| [Master inventory](inventory.csv) | Registered printing files, original names, paths, identification and verification status |
+| [3D-printing overview](3D-Models/README.md) | How STL and prepared 3MF print jobs are organized within the systems |
+| [Setup and operation](Setup-and-Operation/README.md) | Rig-wide diagrams, assembly guidance, operation, calibration and troubleshooting |
+| [Naming and file rules](Documentation/NAMING-AND-FILE-RULES.md) | Prefixes, identifier capacity, split/merge rules, status meanings and source handling |
+| [Documentation](Documentation/README.md) | Engineering procedures and reference materials |
+| [Templates](Templates/README-TEMPLATE.md) | Reusable eight-section README template |
 
-## How a design is registered
+## Seven functional systems
 
-1. Confirm the file represents a real **two-port** component, multi-part assembly, print preparation or external reference.
-2. Identify its original editable source and every derived file.
-3. Classify it by **stable physical function**, then assign an identifier only after the identity is verified.
-4. Preserve engineering dependencies and native source filenames when renaming them would break references.
-5. Store or link the authoritative design, record the revision and make an exact release snapshot.
-6. Record the manufacturing method, print/test outcome and compatibility with the relevant rig build.
+| No. | Functional system | Scope |
+| --- | --- | --- |
+| 1 | [Behavioral Chamber and Animal Interface](Systems/01-Behavioral-Chamber/README.md) | The rat enclosure, access face and animal-facing hardware. This is not the valve sound attenuation chamber. |
+| 2 | [Stimulus Presentation and Access](Systems/02-Stimulus-Presentation-and-Access/README.md) | Spouts, delivery positioning at the animal-facing ports, shutters and access mechanisms. |
+| 3 | [Stimulus Storage and Selection](Systems/03-Stimulus-Storage-and-Selection/README.md) | Stimulus holding, loading and selection, including dedicated movement for presenting chosen stimuli. |
+| 4 | [Valves and Sound Attenuation](Systems/04-Valves-and-Sound-Attenuation/README.md) | Valves, their dedicated drivers and the enclosure that attenuates sound from noisy valve equipment. |
+| 5 | [Vacuum, Gas and Drainage](Systems/05-Vacuum-Gas-and-Drainage/README.md) | Vacuum, gas, rinse, drainage and related fluid removal interfaces. |
+| 6 | [Shared Structure and General Motion](Systems/06-Shared-Structure-and-Motion/README.md) | Shared-purpose framing, generic movement and mechanical fixtures not dedicated to another functional system. |
+| 7 | [Experimental Control, Sensing and Data](Systems/07-Experimental-Control-Sensing-and-Data/README.md) | Experiment-wide controls, behavioral sensing, calibration, session logic and experimental data handling. |
 
-The working ID format is **`SS-NNN`** (two-digit functional-system code, three-digit number within that system). The convention is defined in [3D identification](Documentation/standards/3d-identifiers.md). No actual numeric system codes or part IDs have yet been allocated.
+## Status and provenance
 
-## Current rig concept versus future hardware
+The master inventory currently registers **112 imported manufacturing files (71 STL and 41 3MF)** copied unchanged from the earlier [three-port source repository](https://github.com/neuroMoth/3-Port-4-Bottle-Rig). Each row preserves its old name and location, original source path and content identifier. They have **not** been verified for physical compatibility with the present two-port rig. A copied source file is not evidence of an approved, installed or tested component.
 
-The task uses two access ports with independently controlled shutters and a stimulus-selection mechanism. The current setup uses two two-bottle assemblies and two trial-selection positions with a HOME position. These are **configuration properties** tracked in the [build register](tracking/build-configurations.csv), not identifiers or filename prefixes.
+Other repository areas are prepared for future verified content. An explanatory page or empty placeholder does not establish that a design, procedure, controller or test record exists.
 
-## Technical source control
-
-GitHub records committed files. The editable CAD project may reside in Autodesk Fusion, SolidWorks or another CAD system; save the authoritative source reference and an exact release copy where needed. The [dependency guide](Documentation/guides/renames-and-references.md) explains why a GitHub rename does not repair internal links in a CAD assembly or program.
-
-## Current inventory state
-
-The repository contains technical documentation and **tracking templates**, but no verified new two-port STL, 3MF, STEP, Fusion or SolidWorks model files have been committed. A system directory is a **location for future assets**, not proof a part exists, is installed or has been approved.
-
-## License and ownership
-
-No repository-wide license is specified. Imported/reused designs and code require attribution, permission and existing-license review before redistribution.
+Source authorship and licensing must be respected. See the [original source license](https://github.com/neuroMoth/3-Port-4-Bottle-Rig/blob/main/LICENSE) and the preserved imported notice. No license for all materials in this repository is inferred from source-file inclusion.
