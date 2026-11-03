@@ -19,7 +19,7 @@ Native SolidWorks, Fusion and STEP are **not a separate family by default**. Ass
 
 A fixed batch of ten numbers breaks when a design gains, splits or combines parts. With the subgroup as the hundreds place, each category has **99 numbered positions**. Related files are allocated adjacent numbers initially, but new files later take the next free number in the same subgroup without renumbering other parts. Folder names and the master inventory, not numerical adjacency alone, express assembly membership.
 
-Seven systems and their subgroups are listed in the [system map](../Systems/README.md). An ID retains its original assigned number if a design is relocated or reclassified. Do not recycle retired IDs.
+Seven systems and their subgroups are listed in the [seven-system map](../README.md). An ID retains its original assigned number if a design is relocated or reclassified. Do not recycle retired IDs.
 
 ### Capacity at the imported printing-file baseline
 
