@@ -32,4 +32,4 @@ The master inventory currently registers **112 imported manufacturing files (71 
 
 Other repository areas are prepared for future verified content. An explanatory page or empty placeholder does not establish that a design, procedure, controller or test record exists.
 
-Source authorship and licensing must be respected. See the [original source license](https://github.com/neuroMoth/3-Port-4-Bottle-Rig/blob/main/LICENSE) and the preserved imported notice. No license for all materials in this repository is inferred from source-file inclusion.
+Source authorship and licensing must be respected. See the [original source license](https://github.com/neuroMoth/3-Port-4-Bottle-Rig/blob/main/LICENSE) and the [preserved imported MIT notice](Documentation/SOURCE-LICENSE-MIT.txt). No license for all materials in this repository is inferred from source-file inclusion.
