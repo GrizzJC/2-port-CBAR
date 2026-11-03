@@ -1,50 +1,32 @@
-# System 02 — Stimulus Presentation and Access
+# Stimulus Presentation and Access
 
-**SYSTEM FOLDER (navigation and instructions), not a printable model.** Presents the selected stimulus through the spouts and controls access to those ports.
+Delivers stimuli to the animal through spouts, doors and supporting hardware.
 
-## 1. Overview
+## Find component files
 
-The numbered subgroups below are physical/functional groups within this system. They are **not additional systems**.
-
-## 2. Find actual files
-
-| Subgroup | Component group | Printing-file availability |
+| Subgroup | Printing files | Current state |
 | --- | --- | --- |
-| 01 | [Delivery Frame](01-Delivery-Frame/README.md) | **5 actual STL/3MF files** — [open files](01-Delivery-Frame/3D-Printing/) |
-| 02 | [Access Doors and Actuators](02-Access-Doors-and-Actuators/README.md) | **11 actual STL/3MF files** — [open files](02-Access-Doors-and-Actuators/3D-Printing/) |
-| 03 | [Spout Bodies and Spacers](03-Spout-Bodies-and-Spacers/README.md) | **4 actual STL/3MF files** — [open files](03-Spout-Bodies-and-Spacers/3D-Printing/) |
-| 04 | [Spout Mounts and Clamps](04-Spout-Mounts-and-Clamps/README.md) | **6 actual STL/3MF files** — [open files](04-Spout-Mounts-and-Clamps/3D-Printing/) |
-| 05 | [Spout Tools and Alignment](05-Spout-Tools-and-Alignment/README.md) | **2 actual STL/3MF files** — [open files](05-Spout-Tools-and-Alignment/3D-Printing/) |
+| Delivery Frame | [Open 5 STL/3MF files](01-Delivery-Frame/3D-Printing/) | Files present; design fit **not yet verified** |
+| Access Doors and Actuators | [Open 11 STL/3MF files](02-Access-Doors-and-Actuators/3D-Printing/) | Files present; design fit **not yet verified** |
+| Spout Bodies and Spacers | [Open 4 STL/3MF files](03-Spout-Bodies-and-Spacers/3D-Printing/) | Files present; design fit **not yet verified** |
+| Spout Mounts and Clamps | [Open 6 STL/3MF files](04-Spout-Mounts-and-Clamps/3D-Printing/) | Files present; design fit **not yet verified** |
+| Spout Tools and Alignment | [Open 2 STL/3MF files](05-Spout-Tools-and-Alignment/3D-Printing/) | Files present; design fit **not yet verified** |
 
-**28 actual STL/3MF files** are present in this system. They are all imported and **Unverified** for the current two-port rig.
+**28 STL/3MF printing files** are present in this system. Open a link in the table for actual downloadable files. An unlinked subgroup name is planned for future organization and **does not have a folder yet**.
 
-## 3. Other file locations
+## Locations for other file types
 
-These locations are **empty placeholders** until actual files are added. They are deliberately kept at the **system level**, not repeated inside every subgroup.
-
-| Folder | Intended contents | Current state |
+| Folder | Intended files | Current state |
 | --- | --- | --- |
-| [`CNC/`](CNC/README.md) | CNC machining files | **PLACEHOLDER — no actual files** |
-| [`Electronics/`](Electronics/README.md) | electronic circuit and wiring files | **PLACEHOLDER — no actual files** |
-| [`Software/`](Software/README.md) | software and control files | **PLACEHOLDER — no actual files** |
-| [`Visuals-and-Schematics/`](Visuals-and-Schematics/README.md) | system-specific images and diagrams | **PLACEHOLDER — no actual files** |
+| [CNC/](CNC/) | Machining files | **Empty location** (.gitkeep only) |
+| [Electronics/](Electronics/) | Circuit and wiring design files | **Empty location** (.gitkeep only) |
+| [Software/](Software/) | System-specific code | **Empty location** (.gitkeep only) |
+| [Visuals-and-Schematics/](Visuals-and-Schematics/) | System photographs and schematics | **Empty location** (.gitkeep only) |
 
-## 4. Components and assembly
+These four directories are reserved for future source files. **They do not contain real CNC programs, circuit designs, software or images yet.** Add only verified files. Do not create empty subgroups or placeholder READMEs for individual parts.
 
-See the subgroup README for the physical purpose of each group. Purchased equipment may be documented without a design file.
+## Equipment and relationships
 
-## 5. Fabrication
+Use the relevant subgroup for files specifically designed for that assembly. A component serving another system should be **linked from that system**, not duplicated. Purchased physical equipment can be described here without requiring an invented model file.
 
-Real 3D-print files are only in the subgroup `3D-Printing/` directories linked above. CNC files will be placed in `CNC/` after review.
-
-## 6. Electronics, software and operation
-
-Software, electronic designs and system illustrations have separate clearly labeled folders above. Whole-rig instructions belong in the [setup and operation manual](../../Setup-and-Operation/README.md).
-
-## 7. Compatibility and dependencies
-
-Keep one authoritative file and link to it from any other relevant system. Do not rename linked CAD or executable programs without checking their dependencies.
-
-## 8. Verification and status
-
-The [master inventory](../../inventory.csv) records original and current paths, verification status and use history. Folder existence does not prove a component is installed, working or approved.
+For complete laboratory assembly, operating and calibration guidance, see the [setup manual](../../Setup-and-Operation/README.md). For file IDs, status, last use and original filenames, see [inventory.csv](../../inventory.csv). See [file and naming rules](../../Documentation/NAMING-AND-FILE-RULES.md) before adding, renaming or replacing files.

@@ -1,9 +1,7 @@
-# System overview, visuals and schematics
+# Whole-Rig Visuals and Schematics
 
-Whole-apparatus diagrams and annotated images showing system relationships, major wiring/routing and physical flow. Store authoritative CAD/circuit sources with their functional systems. Link to source drawings instead of duplicating editable project files.
+**Reserved location for integrated assembly diagrams, photographs, routing illustrations and wiring overviews.** No verified full-system diagram is currently present.
 
-## Current contents
+Store a real drawing here only when it shows **multiple systems together** or the full experiment setup. Keep system-specific source diagrams under their [own system](../../Systems/) and link to them instead of making duplicate copies.
 
-Documentation location prepared. No validated procedure or schematic has yet been added.
-
-Refer to the [seven-system map](../../Systems/README.md), [inventory](../../inventory.csv) and [naming rules](../../Documentation/NAMING-AND-FILE-RULES.md).
+The [setup guide](../README.md) links to finished diagrams and explains how the components fit together.

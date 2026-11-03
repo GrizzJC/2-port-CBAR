@@ -1,24 +1,20 @@
 # Two-Port Chemosensory Brief-Access Rig
 
-This repository is organized by **seven functions of the experimental rig**. Each functional system contains related component groups, actual manufacturing files and reserved locations for other file types.
+This repository stores the hardware designs and working references for the Samuelsen Lab's two-port behavioral rig. **There are exactly seven functional systems.** Other top-level folders contain documentation or reusable templates, not more systems.
 
-## First: where is the file?
+## Where to go
 
-| Looking for | Open | What it contains |
+| Location | What it is | What you will find |
 | --- | --- | --- |
-| **STL or 3MF printing file** | [Systems](Systems/README.md) → numbered system → numbered subgroup → **`3D-Printing/`** | **112 real imported STL/3MF files** across the systems; see subgroup links below |
-| **CNC machining file** | [Systems](Systems/README.md) → system → **`CNC/`** | **PLACEHOLDERS only** for now |
-| **Electronics design** | [Systems](Systems/README.md) → system → **`Electronics/`** | **PLACEHOLDERS only** for now |
-| **MATLAB, Arduino or other software** | [Systems](Systems/README.md) → system → **`Software/`** | **PLACEHOLDERS only** for now |
-| **Component photograph or schematic** | [Systems](Systems/README.md) → system → **`Visuals-and-Schematics/`** | **PLACEHOLDERS only** for now |
-| **Whole-rig assembly, operating or calibration instructions** | [Setup and Operation](Setup-and-Operation/README.md) | **Documentation framework**, not manufacturing files |
-| **Search, filter or verify a file** | [Master inventory](inventory.csv) | File IDs, names, original sources, actual paths and status |
-
-**Example of an actual printing folder:** [Behavioral Chamber → Cage Structure → 3D-Printing](Systems/01-Behavioral-Chamber/01-Cage-Structure/3D-Printing/). It contains real STL/3MF files. A `README.md` explains a folder; it is **not** a print file. A folder marked **PLACEHOLDER** has no verified project or technical file yet.
+| [Systems](Systems/) | **Hardware and technical file library** | Seven numbered system folders; actual STL/3MF files in `[system]/[subgroup]/3D-Printing/` |
+| [inventory.csv](inventory.csv) | **Single file inventory** | Current and original filenames, file IDs, source locations and status |
+| [Setup-and-Operation](Setup-and-Operation/README.md) | **Whole-rig manual** | Central setup and operations outline; diagrams have a dedicated location |
+| [Documentation](Documentation/) | **Rules and reference instructions** | Naming rules, dependency safety and imported source license |
+| [Templates](Templates/README-TEMPLATE.md) | **Reusable document template** | Optional standard README structure |
 
 ## The seven systems
 
-| # | System | Imported STL/3MF files |
+| # | System | Actual STL/3MF files |
 | --- | --- | ---: |
 | 01 | [Behavioral Chamber and Animal Interface](Systems/01-Behavioral-Chamber/README.md) | 20 |
 | 02 | [Stimulus Presentation and Access](Systems/02-Stimulus-Presentation-and-Access/README.md) | 28 |
@@ -27,12 +23,14 @@ This repository is organized by **seven functions of the experimental rig**. Eac
 | 05 | [Vacuum, Gas and Drainage](Systems/05-Vacuum-Gas-and-Drainage/README.md) | 29 |
 | 06 | [Shared Structure and General Motion](Systems/06-Shared-Structure-and-Motion/README.md) | 0 |
 | 07 | [Experimental Control, Sensing and Data](Systems/07-Experimental-Control-Sensing-and-Data/README.md) | 6 |
-| **Total** | | **112** |
+| | **Total** | **112** |
 
-**These are the only seven functional systems.** [Documentation](Documentation/README.md) contains technical rules, [Templates](Templates/README-TEMPLATE.md) contains a reusable README outline and [Setup and Operation](Setup-and-Operation/README.md) contains the integrated manual. They are **not additional systems**.
+**Example: locating a real print file**
 
-## File accuracy and status
+`Systems/01-Behavioral-Chamber/01-Cage-Structure/3D-Printing/`
 
-The 112 printing files were imported from the [earlier three-port source repository](https://github.com/neuroMoth/3-Port-4-Bottle-Rig) and remain **Unverified** for the current two-port rig. The [inventory](inventory.csv) preserves original filenames and paths. Do not treat source presence or a placeholder as evidence of installation, compatibility or approval.
+The folder above contains actual STL and 3MF files. A `README.md` explains a folder; it is **not** a print file. `CNC/`, `Software/`, `Electronics/` and `Visuals-and-Schematics/` within each system currently contain only empty-directory placeholders.
 
-For file numbering, print-batch treatment, cross-system references and revision handling, see [Naming and File Rules](Documentation/NAMING-AND-FILE-RULES.md). Original author attribution and the [imported MIT notice](Documentation/SOURCE-LICENSE-MIT.txt) remain preserved; that notice does not license all new content automatically.
+**Do not mistake a placeholder for a finished design.** The 112 imported printing files originate from the earlier [three-port repository](https://github.com/neuroMoth/3-Port-4-Bottle-Rig) and are not yet verified for the current two-port rig.
+
+[File naming and status rules](Documentation/NAMING-AND-FILE-RULES.md) · [File dependency safety](Documentation/FILE-DEPENDENCIES.md) · [Preserved source license](Documentation/SOURCE-LICENSE-MIT.txt)

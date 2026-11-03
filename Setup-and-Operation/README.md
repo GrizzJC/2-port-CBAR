@@ -1,17 +1,25 @@
-# Setup and Operation — whole-rig manual
+# Setup and Operation
 
-**MANUAL / INSTRUCTIONS, not a functional system and not a manufacturing-file library.**
+**Purpose: documentation for the complete experimental rig.** This is not an eighth functional system and is not the location for individual STL, 3MF, CNC or software files.
 
-This section is intended for the complete experimental apparatus: what connects to what, how to assemble the system, how to start an experiment, how to calibrate it and how to maintain it. The primary STL, 3MF, code and circuit files live in the [seven systems](../Systems/README.md).
+## Rig overview and schematics
 
-| Manual section | What belongs here | Present state |
-| --- | --- | --- |
-| [Visuals and Schematics](Visuals-and-Schematics/README.md) | Rig-wide diagrams, connection flow and labeled overview images | Documentation placeholder |
-| [Assembly](Assembly/README.md) | Full-rig build sequence and interfaces | Documentation placeholder |
-| [Operation](Operation/README.md) | Startup, experiment run and shutdown | Documentation placeholder |
-| [Calibration](Calibration/README.md) | Tested calibration and functional checks | Documentation placeholder |
-| [Maintenance](Maintenance/README.md) | Cleaning, repairs and troubleshooting | Documentation placeholder |
+Use [Visuals-and-Schematics](Visuals-and-Schematics/README.md) for whole-rig diagrams and labeled setup images. System-specific schematics belong in the appropriate functional system and may be linked here. **No verified complete-rig diagram has been added yet.**
 
-**System-specific illustrations** belong in that system's `Visuals-and-Schematics/` folder; this manual may link to them. Do not duplicate authoritative design files or publish guessed procedures as verified instructions.
+## Assembly
 
-[Return to the repository start](../README.md) · [Master file inventory](../inventory.csv)
+Document the order in which the seven systems connect, mechanical alignment and critical compatibility checks. **Verified instructions have not yet been provided.**
+
+## Starting and running an experiment
+
+Document startup, preparation, stimulus loading, trial execution, session storage and shutdown. **Verified laboratory operating instructions have not yet been provided.**
+
+## Calibration and verification
+
+Document the actual procedures and acceptance criteria for motors, valves, detectors and delivery volumes. **Do not infer values from unreviewed historical files.**
+
+## Maintenance and troubleshooting
+
+Document cleaning, inspections, known symptoms, verified fixes and replacement procedures. **No lab-specific maintenance procedure has yet been verified.**
+
+Start with the [seven-system index](../README.md). The [inventory](../inventory.csv) identifies actual files and status.

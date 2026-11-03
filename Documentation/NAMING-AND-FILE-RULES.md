@@ -61,10 +61,18 @@ Approval belongs to a particular tested design/configuration. A substantial loca
 
 Store a file once, in its primary functional location. Other systems link to it rather than keeping stale duplicates. If an external tool absolutely requires a duplicate, label it as a non-authoritative `COPY` and record its source path; do not independently mark that copy as approved.
 
-Before changing a SolidWorks/Fusion source, 3MF project or executable MATLAB/Arduino file name, check references using the [dependency guide](guides/renames-and-references.md). No automated GitHub move repairs links inside external programs.
+Before changing a SolidWorks/Fusion source, 3MF project or executable MATLAB/Arduino file name, check references using the [dependency guide](FILE-DEPENDENCIES.md). No automated GitHub move repairs links inside external programs.
 
 ## 6. Single inventory and provenance
 
 The root [inventory.csv](../inventory.csv) is the **single authoritative file and component register**. It holds original names, original paths, current paths, source references, status and recorded test/use facts. System READMEs should explain equipment and relationships rather than duplicate the entire changing inventory. When verified non-print assets are added, use the same inventory or a carefully justified extension rather than another manually synchronized register.
 
 The imported source is a three-port version; none of its copied files should be described as compatible with the current two-port apparatus without appropriate evidence.
+
+## 7. Intake and maintenance
+
+When adding a file, identify its intended function and manufacturing role, preserve original source/provenance, check filename dependencies, allocate an available subgroup ID, place only the actual file and update the [master inventory](../inventory.csv). Keep the source project's version or commit reference where it matters for reproducibility. Record testing or physical-use dates only from actual evidence; a committed file is not automatically approved.
+
+Keep `README.md` files only where they supply useful system or operating information. **Do not maintain duplicate inventories, redundant revision ledgers or placeholder READMEs for empty component subgroups.** Empty locations for CNC, electronics, software and system-specific illustrations are represented by `.gitkeep`, with their purpose explained in each system's README. Once real files are added, remove the `.gitkeep` for that folder.
+
+GitHub stores committed changes, not unsaved local edits. Source CAD versions, Git history and physical validation remain distinct. Keep source attribution and licenses intact. Do not commit sensitive research or animal records to a public repository without permission. A later transfer to a laboratory organization should preserve repository history and verify access, dependencies and ownership first.
