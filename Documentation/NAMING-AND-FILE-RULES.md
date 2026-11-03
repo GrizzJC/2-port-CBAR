@@ -20,6 +20,9 @@ A filename should be recognizable, have a stable identifier and point to one mai
 | `CNC` | Subtractive CNC machining, regardless of material | CNC program, machine project, cutting drawing |
 | `SW` | Software and executable control logic | MATLAB, Arduino, program dependencies |
 | `EL` | Electronics and circuit design | KiCad, wiring diagrams, circuit board designs |
+| `VIS` | System-specific reference images and diagrams | Photos, labeled connection images, explanatory 2D schematics |
+
+Whole-rig guide images and manually authored guide pages are navigational documentation, not separate engineering components; they do not need a numbered engineering ID. A reviewed system-specific diagram that must be tracked as an engineering source may use `VIS` in its functional area.
 
 Native SolidWorks, Fusion and STEP are **not a separate family by default**. Assign them according to the intended deliverable. Preserve required native filenames and assembly dependencies; register the identifier separately when renaming the file would break relationships.
 

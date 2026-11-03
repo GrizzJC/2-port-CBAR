@@ -9,8 +9,8 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 INVENTORY = ROOT / "inventory.csv"
 LIBRARY = ROOT / "Rig-Engineering-Files"
-FOLDERS = {"3DP": "3D-Printing", "CNC": "CNC", "SW": "Code", "EL": "Electronics"}
-ID_PATTERN = re.compile(r"^(3DP|CNC|SW|EL)-[1-7]-[1-9][0-9]{2}$")
+FOLDERS = {"3DP": "3D-Printing", "CNC": "CNC", "SW": "Code", "EL": "Electronics", "VIS": "Images-and-Diagrams"}
+ID_PATTERN = re.compile(r"^(3DP|CNC|SW|EL|VIS)-[1-7]-[1-9][0-9]{2}$")
 issues = []
 
 def error(message):

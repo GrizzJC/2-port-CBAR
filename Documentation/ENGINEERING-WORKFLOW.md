@@ -26,6 +26,8 @@ Check native CAD assembly references, slicer project contents, software dependen
 
 For **3D printing**, capture intended quantity, the parts contained in a 3MF job, printer, material, print profile, latest result, actual date and reviewer evidence in the existing workbook. A successful print does **not** prove the printed part fits the current rig.
 
+For **system-specific images and diagrams**, store the actual photograph or diagram once in the relevant functional area's `Images-and-Diagrams` location and allocate a `VIS` ID if it needs independent version tracking. For **whole-rig guide images**, keep one copy in the assembly guide and link to source designs.
+
 For **CNC**, preserve the source geometry and machine program and document the tool/material and dimensional check. For **electronics**, preserve circuit source files and verified wiring/board revision. For **software**, preserve runnable source, necessary dependencies, configuration, test procedures and data-output format. Specific technical subgroups should appear only after real files exist.
 
 Do not record historical source-file commit dates as physical print or use dates. Use `Unverified` until there is evidence for a stronger status. An accepted repository organization does not approve individual components.
