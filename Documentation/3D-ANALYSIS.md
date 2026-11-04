@@ -7,9 +7,9 @@ python tools/inspect_3d.py --out .generated/3d-audit
 python tools/inspect_3d.py --compare 3DP-1-201 3DP-1-203
 ```
 
-The **Inspect 3D models (development)** GitHub Actions workflow runs the test suite and inspects all available STL and 3MF files on a development branch. Open the workflow run's **Summary** for totals, next numerical file IDs and a sample comparison. Download the **3d-file-audit** artifact for all source-backed data. A concise generated report is published as `Documentation/3D-ANALYSIS-RESULTS.md` on this development branch. It is **generated, not manually maintained**. The detailed outputs remain attached to the workflow run, rather than being committed as a competing inventory.
+The **Inspect 3D models (development)** GitHub Actions workflow runs the test suite and inspects all available STL and 3MF files on a development branch. Open the workflow run's **Summary** for totals, next numerical file IDs and a sample comparison. Download the **3d-file-audit** artifact for all source-backed data. A concise, **actionable component relationship report** is published as `Documentation/3D-COMPONENT-REVIEW.md` on this development branch. It is **generated, not manually maintained**. The detailed outputs remain attached to the workflow run, rather than being committed as a competing inventory.
 
-**Outputs:** `3d-file-summary.csv`, `3d-analysis.json`, `suggested-next-ids.csv` and a generated report `README.md`. These are analysis artifacts, NOT reviewed or approved values in the master inventory. They do not change source files or the working Google Sheet.
+**Outputs:** `component-review.md` (every registered file and links), `component-review-summary.json`, `3d-file-summary.csv`, `3d-analysis.json`, `suggested-next-ids.csv` and a generated numerical summary `README.md`. These are analysis artifacts, NOT reviewed or approved values in the master inventory. They do not change source files or the working Google Sheet.
 
 ## Comparing holes and moved features
 
@@ -34,3 +34,7 @@ The 3MF parsing is intentionally a first-pass inspection based on the [3MF Core 
 `suggested-next-ids.csv` calculates the next **unused sequential ID after the current maximum** per populated subgroup. A number is a proposal, not automatically reserved. It must be checked against the inventory and any concurrently developed branches. Never renumber an existing ID simply because its functional subgroup changes.
 
 The full data remains in GitHub Actions artifacts; print results, verification and proposed names remain in the lab's chosen working inventory. **No automatic spreadsheet edits and no physical printing status inference.**
+
+## Component-by-component review
+
+The development workflow now produces a full [component and print-job review](3D-COMPONENT-REVIEW.md) from actual registered files. Every STL lists the exact 3MF build geometry it matches; every 3MF lists its matching STL IDs, stored print-bed build items and any unmatched geometry. These are **content-derived candidate relationships**, not confirmed assembly instructions. Complex projects, rotated or differently tessellated meshes, incomplete settings and real printer results still require lab verification. The report updates when committed 3D files, inventory or analysis tools change. The latest Git change list is derived from the Git event, when available. No printing date, status or approval is inferred.

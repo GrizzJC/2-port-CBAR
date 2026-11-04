@@ -12,6 +12,7 @@ import csv
 import hashlib
 import itertools
 import json
+import os
 import math
 from pathlib import Path
 import re
@@ -364,6 +365,8 @@ def main():
     parser.add_argument("--compare", nargs=2, metavar=("ID_A", "ID_B"))
     args = parser.parse_args()
     details, counts, candidates, next_ids = scan(ROOT)
+    from component_review import make_report
+    review, review_stats = make_report(details, os.environ.get('ANALYSIS_BASE_REF'))
     output = args.out.resolve()
     output.mkdir(parents=True, exist_ok=True)
     by_id = {x["file_id"]: x for x in details}
@@ -394,6 +397,8 @@ def main():
         "comparisons": comparisons, "files": details
     }
     (output / "3d-analysis.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
+    (output / "component-review.md").write_text(review, encoding="utf-8")
+    (output / "component-review-summary.json").write_text(json.dumps(review_stats, indent=2), encoding="utf-8")
     with (output / "3d-file-summary.csv").open("w", newline="", encoding="utf-8") as f:
         fieldnames = ["File ID","File Name","Format","Status","Triangles","Model Bounding Box","Mesh Components",
                       "Through Tunnel Genus (if manifold)","Boundary Edges","Geometry Fingerprint",
