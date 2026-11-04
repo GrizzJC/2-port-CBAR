@@ -32,6 +32,12 @@ Rig-Engineering-Files/
 
 Use the [Engineering Workflow](Documentation/ENGINEERING-WORKFLOW.md) for new files, development branches, review, print tests, inventory synchronization and reproducible version tags. The [GitHub change-request form](.github/ISSUE_TEMPLATE/change-request.yml) and [pull-request checklist](.github/PULL_REQUEST_TEMPLATE.md) are ready to use. The [automatic inventory check](.github/workflows/validate-repository.yml) checks administrative consistency but cannot validate physical compatibility.
 
+## Development preview: automated 3D analysis
+
+This is the **work/3d-print-review** branch. The approved `main` baseline remains separate. The [3D analysis guide](Documentation/3D-ANALYSIS.md) explains geometry fingerprints, moved holes, 3MF objects/settings and numerical ID suggestions. Run **[Inspect 3D models (development)](../../actions/workflows/inspect-3d.yml)** from the Actions tab, then open the completed run to read its **Summary** and download the **3d-file-audit** artifact (JSON, CSV and readable report). Reports are generated on demand, not stored as manually maintained copies.
+
+These calculations are **technical screening only**, not physical print, fit, release or research validation. The source manufacturing files are not altered by this action.
+
 ## The seven functional areas
 
 | # | Area | Imported STL and 3MF files |
