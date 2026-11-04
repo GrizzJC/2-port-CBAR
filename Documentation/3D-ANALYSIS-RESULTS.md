@@ -7,13 +7,13 @@
 | Registered STL files | 71 |
 | Registered 3MF files | 41 |
 | Mesh/project analysis errors | 0 |
-| Exact translation-normalized geometry match groups | 29 |
+| Exact translation-normalized geometry match groups (not necessarily duplicate files) | 29 |
 
 ## Output files
 
-- \`3d-analysis.json\`: full object-by-object 3MF build items/transforms and saved slicer settings, plus STL topology.
-- \`3d-file-summary.csv\`: concise per-file numerical measurements.
-- \`suggested-next-ids.csv\`: numerical suggestions only; new IDs still require review.
+- `3d-analysis.json`: full object-by-object 3MF build items/transforms and saved slicer settings, plus STL topology.
+- `3d-file-summary.csv`: concise per-file numerical measurements.
+- `suggested-next-ids.csv`: numerical suggestions only; new IDs still require review.
 
 ## Sample next IDs
 
@@ -38,14 +38,29 @@
 | 3DP-7-1 | 3DP-7-103 |
 | 3DP-7-2 | 3DP-7-205 |
 
+## Example matching geometries
+
+These groups can include an STL mesh and a model embedded in a 3MF print job. They are **not** recommendations to delete files.
+- 3DP-1-201, 3DP-1-202/object:1
+- 3DP-1-202/object:7, 3DP-1-203
+- 3DP-1-307/object:1, 3DP-1-308
+- 3DP-1-402, 3DP-1-403/object:1
+- 3DP-2-101/object:1, 3DP-2-102
+- 3DP-2-301/object:1, 3DP-2-302
+- 3DP-2-303/object:1, 3DP-2-304
+- 3DP-2-401/object:1, 3DP-2-401/object:2, 3DP-2-401/object:3, 3DP-2-402
+
 ## Requested mesh comparison
 
-- Files: \`3DP-1-201\` and \`3DP-1-203\`
+- Files: `3DP-1-201` and `3DP-1-203`
 - Finding: **Mesh geometry differs**
 - Bounding-dimension change: [0.0, 0.0, -56.14]
 - Triangle count change: 0
 - Approximate surface-area change in model units²: -4154.36
 - Tunnel-genus estimates: [1, 1]
+- Changed-triangle candidates in first mesh: {'changed_triangles': 10, 'region_bbox': {'min': [0.0, 68.0, 0.0], 'max': [25.0, 80.0, 91.6874]}, 'region_extent': [25.0, 12.0, 91.6874]}
+- Changed-triangle candidates in second mesh: {'changed_triangles': 10, 'region_bbox': {'min': [0.0, 68.0, 0.0], 'max': [25.0, 80.0, 35.5474]}, 'region_extent': [25.0, 12.0, 35.5474]}
+- Changed regions are **not** precise hole dimensions or registration results.
 
 ## What this analysis can and cannot detect
 
@@ -54,7 +69,8 @@ triangle count and volume remain unchanged. Moving a hole within an otherwise fi
 A pure whole-model translation does not change that fingerprint; a rotation generally does.
 For watertight edge-manifold meshes, genus can suggest the number of through-tunnels.
 A blind hole, cavity, resized opening or repositioned cutout may change the fingerprint without changing genus.
-This script does **not** localize or measure a changed opening; robust arbitrary-rotation alignment and
-volumetric/Boolean difference measurements need a geometry-aware follow-up tool and visual review.
+The changed-triangle region narrows attention to candidate altered facets for pairwise STL comparisons,
+but does not identify a precise hole center, diameter or volume. Arbitrary rotations need alignment.
+Volumetric/Boolean difference measurements require a geometry-aware tool and visual review.
 STL does not state units; 3MF model units and slicer metadata may be available.
 A slicer profile saved in 3MF is not evidence that this object was physically printed.
