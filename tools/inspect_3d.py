@@ -439,6 +439,26 @@ def main():
                   "These groups can include an STL mesh and a model embedded in a 3MF print job. They are **not** recommendations to delete files."]
         for item in candidates[:8]:
             lines.append("- " + ", ".join(item["possible_matches"][:12]))
+    example = next((x for x in details if x["file_id"] == "3DP-7-202" and x.get("project")), None)
+    if example:
+        project = example["project"]
+        parts = project.get("model_parts", [])
+        objects = [o for p in parts for o in p.get("objects", [])]
+        items = [o for p in parts for o in p.get("build_items", [])]
+        settings = project.get("available_slicer_settings", {})
+        lines += ["", "## Actual example: inside 3DP-7-202 (.3mf)", "",
+                  f"- Declared model units: {', '.join(sorted(set(p.get('unit','unknown') for p in parts)))}",
+                  f"- Embedded model objects: {len(objects)}",
+                  f"- Print-bed build placements: {len(items)}",
+                  f"- Stored slicer configuration files: {', '.join(project.get('settings_sources', [])) or 'None detected'}",
+                  "- These fields are stored project information, **not evidence of an actual print**."]
+        for item in items[:8]:
+            lines.append(f"  - Build object ID {item.get('object_id')}, transform: {item.get('transform')}")
+        for key in ["printer_model","printer_settings_id","print_settings_id","filament_type",
+                    "nozzle_diameter","layer_height","fill_density","support_material"]:
+            value = settings.get(key)
+            if value not in (None, ""):
+                lines.append(f"- Saved setting {key}: {str(value)[:100]}")
     if comparisons:
         x = comparisons[0]
         lines += ["", "## Requested mesh comparison", "",
