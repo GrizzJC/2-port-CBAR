@@ -17,7 +17,9 @@ Summary statistics (triangle count, bounding dimensions, surface area and volume
 
 For meshes with no boundary or nonmanifold edges, the program estimates topology using the Euler characteristic. This can indicate a change in the count of **through-holes/tunnels**, but is not a count of every drilled or blind hole. A moved blind hole can change the fingerprint while leaving topology, volume, surface area and triangle count unchanged.
 
-**Limit:** A differing geometry fingerprint does not locate the edited hole, find its center/diameter, or calculate the exact geometric difference between the objects. Those tasks require mesh registration/alignment, a distance field or solid Boolean difference with visual confirmation. STL does not declare units. A mesh may be nonmanifold, self-intersecting or generated with different triangulation even when its intended solid is effectively identical, and this can produce changed fingerprints.
+**Further detection:** For two STL files compared with `--compare`, the tool now also reports bounding regions of the **triangles that were removed and added**, after normalizing whole-model translation. This can focus a visual inspection near a moved or resized hole even if the overall size and triangle counts are unchanged.
+
+**Limit:** These are regions of changed *triangulation*, not precisely identified holes, diameters or calculated solid-Boolean differences. A re-tessellation or rotation may produce a broad region even where the intended solid shape is similar. Reliable per-feature dimensions require explicit geometric segmentation and review. Those tasks require mesh registration/alignment, a distance field or solid Boolean difference with visual confirmation. STL does not declare units. A mesh may be nonmanifold, self-intersecting or generated with different triangulation even when its intended solid is effectively identical, and this can produce changed fingerprints.
 
 ## 3MF analysis
 

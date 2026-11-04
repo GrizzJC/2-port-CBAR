@@ -250,6 +250,43 @@ def find_duplicate_meshes(details):
     return [{"fingerprint": fp, "possible_matches": values}
             for fp, values in fingerprints.items() if len(values) > 1]
 
+def changed_mesh_regions(faces_a, faces_b):
+    """Bounding regions of facets that changed after removing whole-model translation.
+
+    Mesh axes are not rotationally aligned. Boundaries are *candidate areas of
+    changed triangulation*, not proven hole centers or exact hole sizes.
+    """
+    def normalized_facets(faces):
+        low = [min(p[k] for tri in faces for p in tri) for k in range(3)]
+        triples = Counter()
+        for tri in faces:
+            key = tuple(sorted(
+                tuple(round(p[k]-low[k], FINGERPRINT_PRECISION) for k in range(3))
+                for p in tri))
+            triples[key] += 1
+        return triples
+    left, right = normalized_facets(faces_a), normalized_facets(faces_b)
+
+    def describe(only):
+        total = sum(only.values())
+        if not total:
+            return {"changed_triangles": 0, "region_bbox": None, "region_extent": None}
+        coords = [p for triangle in only for p in triangle]
+        lo = [min(p[k] for p in coords) for k in range(3)]
+        hi = [max(p[k] for p in coords) for k in range(3)]
+        return {"changed_triangles": total,
+                "region_bbox": {"min": lo, "max": hi},
+                "region_extent": [rounded(hi[k]-lo[k]) for k in range(3)]}
+    old = left-right
+    new = right-left
+    return {
+        "changed_regions_old": describe(old),
+        "changed_regions_new": describe(new),
+        "coordinate_frame": "each mesh translated to its own (0,0,0) bounding minimum",
+        "interpretation_limit": "Candidate changed-triangle bounds only. Re-tessellation, rotation, geometry repair or a different mesh density can mark unchanged solid areas. Does not measure a hole's exact center or diameter."
+    }
+
+
 def compare(a, b):
     ga = a.get("geometry") or a.get("single_object_geometry")
     gb = b.get("geometry") or b.get("single_object_geometry")
@@ -334,7 +371,21 @@ def main():
     if args.compare:
         if any(x not in by_id for x in args.compare):
             parser.error("Unknown file ID in --compare; use the registered 3DP-* IDs")
-        comparisons.append(compare(*(by_id[x] for x in args.compare)))
+        a, b = (by_id[x] for x in args.compare)
+        result = compare(a, b)
+        if a["type"] == b["type"] == "STL" and "geometry" in a and "geometry" in b:
+            result.update(changed_mesh_regions(read_stl(ROOT / a["path"]), read_stl(ROOT / b["path"])))
+        if a["type"] == b["type"] == "3MF" and "project" in a and "project" in b:
+            def placements(x):
+                return [{"model": model["path"], "build_items": model.get("build_items", [])}
+                        for model in x["project"]["model_parts"]]
+            result["build_placements_changed"] = placements(a) != placements(b)
+            sa = a["project"].get("available_slicer_settings", {})
+            sb = b["project"].get("available_slicer_settings", {})
+            result["saved_slicer_settings_changed"] = {
+                k: [sa.get(k), sb.get(k)] for k in sorted(set(sa)|set(sb)) if sa.get(k) != sb.get(k)
+            }
+        comparisons.append(result)
     errors = [x for x in details if x["analysis_status"] != "success"]
     result = {
         "scope": "read-only repository mesh audit; geometry is not physical validation",
@@ -373,37 +424,52 @@ def main():
              f"| Registered STL files | {counts['STL']} |",
              f"| Registered 3MF files | {counts['3MF']} |",
              f"| Mesh/project analysis errors | {len(errors)} |",
-             f"| Exact translation-normalized geometry match groups | {len(candidates)} |",
+             f"| Exact translation-normalized geometry match groups (not necessarily duplicate files) | {len(candidates)} |",
              "", "## Output files", "",
-             "- \`3d-analysis.json\`: full object-by-object 3MF build items/transforms and saved slicer settings, plus STL topology.",
-             "- \`3d-file-summary.csv\`: concise per-file numerical measurements.",
-             "- \`suggested-next-ids.csv\`: numerical suggestions only; new IDs still require review.",
+             "- `3d-analysis.json`: full object-by-object 3MF build items/transforms and saved slicer settings, plus STL topology.",
+             "- `3d-file-summary.csv`: concise per-file numerical measurements.",
+             "- `suggested-next-ids.csv`: numerical suggestions only; new IDs still require review.",
              "", "## Sample next IDs", "",
              "| Group prefix | Next consecutive ID |",
              "| --- | --- |"]
     for x in next_ids[:25]:
         lines.append(f"| {x['group_prefix']} | {x['next_sequential_id']} |")
+    if candidates:
+        lines += ["", "## Example matching geometries", "",
+                  "These groups can include an STL mesh and a model embedded in a 3MF print job. They are **not** recommendations to delete files."]
+        for item in candidates[:8]:
+            lines.append("- " + ", ".join(item["possible_matches"][:12]))
     if comparisons:
         x = comparisons[0]
         lines += ["", "## Requested mesh comparison", "",
-                  f"- Files: \`{x['file_a']}\` and \`{x['file_b']}\`",
+                  f"- Files: `{x['file_a']}` and `{x['file_b']}`",
                   f"- Finding: **{x['result']}**",
                   f"- Bounding-dimension change: {x['bounds_dimensions_delta']}",
                   f"- Triangle count change: {x['triangle_count_delta']}",
                   f"- Approximate surface-area change in model units²: {x['surface_area_delta']}",
                   f"- Tunnel-genus estimates: {x['genus_estimates']}"]
+        if "changed_regions_old" in x:
+            lines += [
+                f"- Changed-triangle candidates in first mesh: {x['changed_regions_old']}",
+                f"- Changed-triangle candidates in second mesh: {x['changed_regions_new']}",
+                "- Changed regions are **not** precise hole dimensions or registration results."
+            ]
+        if "build_placements_changed" in x:
+            lines += [f"- 3MF bed placements changed: {x['build_placements_changed']}",
+                      f"- Saved slicer profile fields changed: {len(x['saved_slicer_settings_changed'])}"]
     if errors:
         lines += ["", "## Parser limitations/errors", ""]
         for x in errors:
-            lines.append(f"- \`{x['file_id']}\`: {x.get('analysis_error')}")
+            lines.append(f"- `{x['file_id']}`: {x.get('analysis_error')}")
     lines += ["", "## What this analysis can and cannot detect", "",
               "Translation-normalized triangle fingerprints detect changed vertices/faces even when bounding dimensions,",
               "triangle count and volume remain unchanged. Moving a hole within an otherwise fixed part changes the fingerprint.",
               "A pure whole-model translation does not change that fingerprint; a rotation generally does.",
               "For watertight edge-manifold meshes, genus can suggest the number of through-tunnels.",
               "A blind hole, cavity, resized opening or repositioned cutout may change the fingerprint without changing genus.",
-              "This script does **not** localize or measure a changed opening; robust arbitrary-rotation alignment and",
-              "volumetric/Boolean difference measurements need a geometry-aware follow-up tool and visual review.",
+              "The changed-triangle region narrows attention to candidate altered facets for pairwise STL comparisons,",
+              "but does not identify a precise hole center, diameter or volume. Arbitrary rotations need alignment.",
+              "Volumetric/Boolean difference measurements require a geometry-aware tool and visual review.",
               "STL does not state units; 3MF model units and slicer metadata may be available.",
               "A slicer profile saved in 3MF is not evidence that this object was physically printed."]
     (output / "README.md").write_text("\n".join(lines)+"\n", encoding="utf-8")

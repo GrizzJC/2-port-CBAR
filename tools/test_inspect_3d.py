@@ -3,7 +3,7 @@ import sys
 import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from inspect_3d import mesh_stats, compare
+from inspect_3d import mesh_stats, compare, changed_mesh_regions
 
 def voxel_surface(hole_x):
     solid = {(x,y,z) for x in range(8) for y in range(8) for z in range(3)
@@ -41,6 +41,19 @@ class GeometryChecks(unittest.TestCase):
         self.assertNotEqual(a["translation_invariant_geometry_hash"],b["translation_invariant_geometry_hash"])
         result = compare({"file_id":"a","geometry":a},{"file_id":"b","geometry":b})
         self.assertFalse(result["same_normalized_triangle_mesh"])
+    def test_changed_region_reveals_hole_move(self):
+        a, b = voxel_surface(2), voxel_surface(5)
+        diff = changed_mesh_regions(a, b)
+        self.assertGreater(diff["changed_regions_old"]["changed_triangles"], 0)
+        self.assertGreater(diff["changed_regions_new"]["changed_triangles"], 0)
+        self.assertIsNotNone(diff["changed_regions_old"]["region_bbox"])
+        self.assertLessEqual(diff["changed_regions_old"]["region_extent"][0], 8)
+    def test_translated_mesh_has_no_local_changed_triangles(self):
+        a = voxel_surface(2)
+        translated = [tuple(tuple(v+(3 if k == 0 else 8) for k, v in enumerate(p)) for p in tri) for tri in a]
+        diff = changed_mesh_regions(a, translated)
+        self.assertEqual(diff["changed_regions_old"]["changed_triangles"], 0)
+        self.assertEqual(diff["changed_regions_new"]["changed_triangles"], 0)
     def test_watertight_through_hole_is_topologically_visible(self):
         a = mesh_stats(voxel_surface(2))
         self.assertTrue(a["watertight_edge_test"])
