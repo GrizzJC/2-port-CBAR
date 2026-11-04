@@ -69,6 +69,10 @@ def analyze_links(details):
                     stl_to_jobs[ident].add(job["file_id"])
         related_ids = sorted({name for obj in used for name in obj["related_stl_ids"]})
         unmatched_count = sum(not obj["related_stl_ids"] for obj in used)
+        unique_instance_counts = Counter(
+            obj["related_stl_ids"][0] for obj in used if len(obj["related_stl_ids"])==1
+        )
+        # Count of model instances stored in the print job, NOT physical quantity needed by the rig.
         # Name and approximate-bounds matches are only candidates, not direct mesh relationships.
         same_name = sorted(x["file_id"] for x in stls
                            if Path(x["path"]).parent == Path(job["path"]).parent
@@ -85,7 +89,8 @@ def analyze_links(details):
                                    for dims in dims_used))
         job_info[job["file_id"]] = {
             "placements":placements,"mesh_objects":mesh_objects,"used_meshes":used,
-            "matching_stl_ids":related_ids,"unmatched_meshes":unmatched_count,
+            "matching_stl_ids":related_ids,"matched_instance_counts":dict(unique_instance_counts),
+            "unmatched_meshes":unmatched_count,
             "warnings":warnings,"same_name_stl_ids":same_name,
             "same_size_stl_ids":same_size,
             "slicer_sources":project.get("settings_sources", []),
@@ -141,6 +146,8 @@ def make_report(details, previous=None):
         "An exact translation-normalized geometry match is strong evidence",
         "of the same triangular mesh at 0.0001 model-coordinate precision.",
         "It is NOT proof that a physical print was completed or installed.",
+        "Quantities shown below are model instances saved on the 3MF print bed,",
+        "NOT necessarily how many finished parts the rig requires.",
         "",
         "## At a glance",
         "",
@@ -203,6 +210,10 @@ def make_report(details, previous=None):
                           str(len(info["used_meshes"]))+" built mesh reference(s); "+
                           ("STL: "+", ".join(info["matching_stl_ids"])
                            if info["matching_stl_ids"] else "no exact STL match"))
+                if info["matched_instance_counts"]:
+                    count_text=", ".join(sid+" x"+str(number)
+                                         for sid,number in sorted(info["matched_instance_counts"].items()))
+                    matching+="; stored mesh instances: "+count_text
                 if info["unmatched_meshes"]:
                     matching+="; "+str(info["unmatched_meshes"])+" unmatched"
                 if not info["matching_stl_ids"] and info["same_name_stl_ids"]:

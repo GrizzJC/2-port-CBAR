@@ -24,6 +24,7 @@ class ComponentReviewTests(unittest.TestCase):
         links, stl_jobs, dup=analyze_links(data)
         self.assertEqual(links["3DP-1-103"]["matching_stl_ids"],["3DP-1-101"])
         self.assertFalse(stl_jobs.get("3DP-1-102"))
+        self.assertEqual(links["3DP-1-103"]["matched_instance_counts"],{"3DP-1-101":1})
     def test_partial_project_is_flagged(self):
         data=[stl("3DP-1-101","AAA"),job("3DP-1-103",{1:"AAA",2:"UNKNOWN"},[1,2])]
         links,_,_=analyze_links(data)
