@@ -29,6 +29,18 @@ def resolve_used_meshes(part):
         walk(item.get("object_id"), i)
     return results, warnings
 
+def normalized_part_name(item):
+    base=Path(item["filename"]).stem
+    base=re.sub(r"^3DP-\d-\d{3}_", "", base, flags=re.I)
+    base=re.sub(r"^PrintJob-", "", base, flags=re.I)
+    return re.sub(r"[^a-z0-9]", "", base.lower())
+
+def bbox_approx_same(a,b):
+    if not a or not b or len(a)!=3 or len(b)!=3:
+        return False
+    return all(abs(x-y) <= max(0.1,0.01*max(abs(x),abs(y))) 
+               for x,y in zip(sorted(a),sorted(b)))
+
 def analyze_links(details):
     stls = [x for x in details if x["type"] == "STL"]
     jobs = [x for x in details if x["type"] == "3MF"]
@@ -57,10 +69,26 @@ def analyze_links(details):
                     stl_to_jobs[ident].add(job["file_id"])
         related_ids = sorted({name for obj in used for name in obj["related_stl_ids"]})
         unmatched_count = sum(not obj["related_stl_ids"] for obj in used)
+        # Name and approximate-bounds matches are only candidates, not direct mesh relationships.
+        same_name = sorted(x["file_id"] for x in stls
+                           if Path(x["path"]).parent == Path(job["path"]).parent
+                           and normalized_part_name(x)==normalized_part_name(job))
+        dims_used = [
+            obj.get("mesh",{}).get("bbox_size")
+            for part in parts for obj in part.get("objects", [])
+            if obj.get("mesh")
+        ]
+        same_size = sorted(x["file_id"] for x in stls if
+                           Path(x["path"]).parent == Path(job["path"]).parent
+                           and x["file_id"] not in related_ids
+                           and any(bbox_approx_same(x.get("geometry",{}).get("bbox_size"),dims)
+                                   for dims in dims_used))
         job_info[job["file_id"]] = {
             "placements":placements,"mesh_objects":mesh_objects,"used_meshes":used,
             "matching_stl_ids":related_ids,"unmatched_meshes":unmatched_count,
-            "warnings":warnings,"slicer_sources":project.get("settings_sources", []),
+            "warnings":warnings,"same_name_stl_ids":same_name,
+            "same_size_stl_ids":same_size,
+            "slicer_sources":project.get("settings_sources", []),
             "slicer_settings":project.get("available_slicer_settings", {})
         }
     duplicated_stls = {h: sorted(ids) for h,ids in geom_index.items() if len(ids)>1}
@@ -93,6 +121,11 @@ def make_report(details, previous=None):
     partial=sum(bool(v["matching_stl_ids"]) and v["unmatched_meshes"]>0 for v in jobs.values())
     with_no_match=sum(not v["matching_stl_ids"] for v in jobs.values())
     unmatched_stls=[x for x in stls if not stl_jobs.get(x["file_id"])]
+    guessed_by_name = {x["file_id"]: sorted(jid for jid,v in jobs.items()
+                                            if x["file_id"] in v["same_name_stl_ids"])
+                       for x in stls}
+    candidate_projects=sum(bool(v["same_name_stl_ids"]) and not v["matching_stl_ids"]
+                           for v in jobs.values())
     multipart=sum(len(v["matching_stl_ids"])>1 for v in jobs.values())
     errors=[x for x in details if x.get("analysis_status")=="error"]
     groups=defaultdict(list)
@@ -118,6 +151,7 @@ def make_report(details, previous=None):
         f"| Jobs partially matched to STL meshes | {partial} |",
         f"| Jobs without exact matching STL geometry | {with_no_match} |",
         f"| STL files without an exact built-object 3MF match | {len(unmatched_stls)} |",
+        f"| No-exact-match 3MF projects with a same-name STL candidate | {candidate_projects} |",
         f"| Jobs matching multiple distinct STL IDs | {multipart} |",
         f"| Identical-geometry STL ID groups | {len(duplicates)} |",
         f"| Parsing errors | {len(errors)} |",
@@ -153,6 +187,8 @@ def make_report(details, previous=None):
             if item["type"]=="STL":
                 links=sorted(stl_jobs.get(fid,set()))
                 matching="Exact mesh in "+", ".join(links) if links else "No exact 3MF job match"
+                if not links and guessed_by_name.get(fid):
+                    matching += "; possible same-name print job "+", ".join(guessed_by_name[fid])
                 equals=sorted({other for vals in duplicates.values() if fid in vals for other in vals if other!=fid})
                 need="Confirm function, design revision and physical compatibility"
                 if not links:
@@ -167,10 +203,18 @@ def make_report(details, previous=None):
                            if info["matching_stl_ids"] else "no exact STL match"))
                 if info["unmatched_meshes"]:
                     matching+="; "+str(info["unmatched_meshes"])+" unmatched"
+                if not info["matching_stl_ids"] and info["same_name_stl_ids"]:
+                    matching+="; possible same-name STL: "+", ".join(info["same_name_stl_ids"])
+                if not info["matching_stl_ids"] and not info["same_name_stl_ids"] and info["same_size_stl_ids"]:
+                    matching+="; approximate size candidates: "+", ".join(info["same_size_stl_ids"][:4])
                 if info["warnings"]:
                     need="Inspect unresolved 3MF components: "+", ".join(info["warnings"])
                 elif info["unmatched_meshes"] or not info["used_meshes"]:
                     need="Inspect unmatched/absent print-project geometry"
+                    if info["same_name_stl_ids"]:
+                        need+="; compare same-name mesh (different geometry)"
+                    elif info["same_size_stl_ids"]:
+                        need+="; compare similar-size meshes"
                 elif len(info["matching_stl_ids"])>1:
                     need="Confirm multi-part count, fit and slicer settings"
                 else:
@@ -212,6 +256,7 @@ def make_report(details, previous=None):
         "stl":len(stls),"3mf":len(projects),"fully_matched_jobs":fully,
         "partial_jobs":partial,"jobs_no_exact_match":with_no_match,
         "stls_no_exact_job":len(unmatched_stls),
-        "multipart_jobs":multipart,"duplicate_geometry_groups":len(duplicates),
+        "multipart_jobs":multipart,"same_name_candidate_jobs":candidate_projects,
+        "duplicate_geometry_groups":len(duplicates),
         "parser_errors":len(errors)
     }

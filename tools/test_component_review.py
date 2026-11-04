@@ -28,6 +28,14 @@ class ComponentReviewTests(unittest.TestCase):
         data=[stl("3DP-1-101","AAA"),job("3DP-1-103",{1:"AAA",2:"UNKNOWN"},[1,2])]
         links,_,_=analyze_links(data)
         self.assertEqual(links["3DP-1-103"]["unmatched_meshes"],1)
+    def test_name_based_relationship_is_explicitly_not_exact(self):
+        data=[stl("3DP-1-101","AAA"),job("3DP-1-102",{1:"CHANGED"},[1])]
+        data[0]["filename"]="3DP-1-101_Front-Leg.stl"
+        data[1]["filename"]="3DP-1-102_Front-Leg.3mf"
+        links, stl_jobs, _=analyze_links(data)
+        self.assertEqual(links["3DP-1-102"]["same_name_stl_ids"],["3DP-1-101"])
+        self.assertFalse(links["3DP-1-102"]["matching_stl_ids"])
+        self.assertFalse(stl_jobs.get("3DP-1-101"))
     def test_composed_build_item_resolves_child(self):
         p={"objects":[{"id":"1","mesh":None,"components":[{"object_id":"2"}]},
                       {"id":"2","mesh":{"translation_invariant_geometry_hash":"AAA"},"components":[]}],
