@@ -1,0 +1,33 @@
+name: Inspect 3D models (development)
+on:
+  push:
+    branches:
+      - 'work/**'
+    paths:
+      - 'Rig-Engineering-Files/**'
+      - 'inventory.csv'
+      - 'tools/inspect_3d.py'
+      - 'tools/test_inspect_3d.py'
+      - '.github/workflows/inspect-3d.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect-models:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test geometry fingerprints and hole-movement detection
+        run: python -m unittest discover -s tools -p 'test_inspect_3d.py' -v
+      - name: Inspect all STL and 3MF files
+        run: python tools/inspect_3d.py --out .generated/3d-audit --compare 3DP-1-201 3DP-1-203
+      - name: Show numerical results in GitHub Actions
+        run: cat .generated/3d-audit/README.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 3d-file-audit
+          path: .generated/3d-audit/
+          retention-days: 30
