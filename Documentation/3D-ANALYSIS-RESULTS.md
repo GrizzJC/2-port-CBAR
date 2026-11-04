@@ -50,6 +50,16 @@ These groups can include an STL mesh and a model embedded in a 3MF print job. Th
 - 3DP-2-303/object:1, 3DP-2-304
 - 3DP-2-401/object:1, 3DP-2-401/object:2, 3DP-2-401/object:3, 3DP-2-402
 
+## Actual example: inside 3DP-7-202 (.3mf)
+
+- Declared model units: millimeter
+- Embedded model objects: 2
+- Print-bed build placements: 2
+- Stored slicer configuration files: Metadata/Slic3r_PE.config, Metadata/Slic3r_PE_model.config
+- These fields are stored project information, **not evidence of an actual print**.
+  - Build object ID 1, transform: 1 0 0 0 1 0 0 0 1 125 92.35 7.5
+  - Build object ID 2, transform: 1 0 0 0 -1 0 0 0 -1 125 126 7
+
 ## Requested mesh comparison
 
 - Files: `3DP-1-201` and `3DP-1-203`
