@@ -11,7 +11,7 @@ on:
       - '.github/workflows/inspect-3d.yml'
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   inspect-models:
     runs-on: ubuntu-latest
@@ -26,6 +26,17 @@ jobs:
         run: python tools/inspect_3d.py --out .generated/3d-audit --compare 3DP-1-201 3DP-1-203
       - name: Show numerical results in GitHub Actions
         run: cat .generated/3d-audit/README.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish the concise numerical report on the review branch
+        if: github.ref == 'refs/heads/work/3d-print-review'
+        run: |
+          cp .generated/3d-audit/README.md Documentation/3D-ANALYSIS-RESULTS.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Documentation/3D-ANALYSIS-RESULTS.md
+          if ! git diff --cached --quiet; then
+            git commit -m "Update generated 3D metrics [skip ci]"
+            git push origin HEAD:work/3d-print-review
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: 3d-file-audit

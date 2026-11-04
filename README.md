@@ -34,7 +34,7 @@ Use the [Engineering Workflow](Documentation/ENGINEERING-WORKFLOW.md) for new fi
 
 ## Development preview: automated 3D analysis
 
-This is the **work/3d-print-review** branch. The approved `main` baseline remains separate. The [3D analysis guide](Documentation/3D-ANALYSIS.md) explains geometry fingerprints, moved holes, 3MF objects/settings and numerical ID suggestions. Run **[Inspect 3D models (development)](../../actions/workflows/inspect-3d.yml)** from the Actions tab, then open the completed run to read its **Summary** and download the **3d-file-audit** artifact (JSON, CSV and readable report). Reports are generated on demand, not stored as manually maintained copies.
+This is the **work/3d-print-review** branch. The approved `main` baseline remains separate. The [3D analysis guide](Documentation/3D-ANALYSIS.md) explains geometry fingerprints, moved holes, 3MF objects/settings and numerical ID suggestions. Run **[Inspect 3D models (development)](https://github.com/GrizzJC/2-port-CBAR/actions/workflows/inspect-3d.yml)** from the Actions tab, then open the completed run to read its **Summary** and download the **3d-file-audit** artifact (JSON, CSV and readable report). The short [numerical report](Documentation/3D-ANALYSIS-RESULTS.md) is automatically regenerated on this branch; detailed analysis remains in run artifacts.
 
 These calculations are **technical screening only**, not physical print, fit, release or research validation. The source manufacturing files are not altered by this action.
 

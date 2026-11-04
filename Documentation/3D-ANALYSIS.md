@@ -7,7 +7,7 @@ python tools/inspect_3d.py --out .generated/3d-audit
 python tools/inspect_3d.py --compare 3DP-1-201 3DP-1-203
 ```
 
-The **Inspect 3D models (development)** GitHub Actions workflow runs the test suite and inspects all available STL and 3MF files on a development branch. Open the workflow run's **Summary** for totals, next numerical file IDs and a sample comparison. Download the **3d-file-audit** artifact for all source-backed data. This avoids committing constantly changing analysis reports or starting a competing inventory.
+The **Inspect 3D models (development)** GitHub Actions workflow runs the test suite and inspects all available STL and 3MF files on a development branch. Open the workflow run's **Summary** for totals, next numerical file IDs and a sample comparison. Download the **3d-file-audit** artifact for all source-backed data. A concise generated report is published as `Documentation/3D-ANALYSIS-RESULTS.md` on this development branch. It is **generated, not manually maintained**. The detailed outputs remain attached to the workflow run, rather than being committed as a competing inventory.
 
 **Outputs:** `3d-file-summary.csv`, `3d-analysis.json`, `suggested-next-ids.csv` and a generated report `README.md`. These are analysis artifacts, NOT reviewed or approved values in the master inventory. They do not change source files or the working Google Sheet.
 
