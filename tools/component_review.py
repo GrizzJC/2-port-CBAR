@@ -191,8 +191,10 @@ def make_report(details, previous=None):
                     matching += "; possible same-name print job "+", ".join(guessed_by_name[fid])
                 equals=sorted({other for vals in duplicates.values() if fid in vals for other in vals if other!=fid})
                 need="Confirm function, design revision and physical compatibility"
-                if not links:
-                    need="Check whether a separate prepared 3MF is needed"
+                if not links and guessed_by_name.get(fid):
+                    need="Compare likely STL/3MF pair; meshes differ despite matching names"
+                elif not links:
+                    need="Check whether an existing prepared print job is appropriate"
                 if equals:
                     need+="; same geometry as "+", ".join(equals)
             else:
